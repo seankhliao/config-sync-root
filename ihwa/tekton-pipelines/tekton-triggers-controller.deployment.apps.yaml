@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: default
+    app.kubernetes.io/name: tekton-triggers
+    app.kubernetes.io/part-of: tekton-triggers
+    app.kubernetes.io/version: v0.25.0
+    triggers.tekton.dev/release: v0.25.0
+  name: tekton-triggers-controller
+  namespace: tekton-pipelines
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: controller
+      app.kubernetes.io/instance: default
+      app.kubernetes.io/name: tekton-triggers
+      app.kubernetes.io/part-of: tekton-triggers
+  template:
+    metadata:
+      labels:
+        app: tekton-triggers-controller
+        app.kubernetes.io/component: controller
+        app.kubernetes.io/instance: default
+        app.kubernetes.io/name: tekton-triggers
+        app.kubernetes.io/part-of: tekton-triggers
+        app.kubernetes.io/version: v0.25.0
+        triggers.tekton.dev/release: v0.25.0
+        version: v0.25.0
+    spec:
+      containers:
+      - args:
+        - -logtostderr
+        - -stderrthreshold
+        - INFO
+        - -el-image
+        - gcr.io/tekton-releases/github.com/tektoncd/triggers/cmd/eventlistenersink:v0.25.0@sha256:a029b639f5a69913002f944e63bb113d05e289fc1c885257665dd0d116315c9c
+        - -el-port
+        - "8080"
+        - -el-security-context=true
+        - -el-events
+        - disable
+        - -el-readtimeout
+        - "5"
+        - -el-writetimeout
+        - "40"
+        - -el-idletimeout
+        - "120"
+        - -el-timeouthandler
+        - "30"
+        - -el-httpclient-readtimeout
+        - "30"
+        - -el-httpclient-keep-alive
+        - "30"
+        - -el-httpclient-tlshandshaketimeout
+        - "10"
+        - -el-httpclient-responseheadertimeout
+        - "10"
+        - -el-httpclient-expectcontinuetimeout
+        - "1"
+        - -period-seconds
+        - "10"
+        - -failure-threshold
+        - "3"
+        env:
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONFIG_LOGGING_NAME
+          value: config-logging-triggers
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: config-observability-triggers
+        - name: CONFIG_DEFAULTS_NAME
+          value: config-defaults-triggers
+        - name: METRICS_DOMAIN
+          value: tekton.dev/triggers
+        - name: METRICS_PROMETHEUS_PORT
+          value: "9000"
+        - name: CONFIG_LEADERELECTION_NAME
+          value: config-leader-election-triggers-controllers
+        image: gcr.io/tekton-releases/github.com/tektoncd/triggers/cmd/controller:v0.25.0@sha256:cf9aa3895eb475e491173576927a8c066c7f537630306233b39985509bec186c
+        name: tekton-triggers-controller
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
+      serviceAccountName: tekton-triggers-controller

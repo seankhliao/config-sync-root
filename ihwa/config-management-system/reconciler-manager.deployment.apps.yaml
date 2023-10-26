@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: reconciler-manager
+    configmanagement.gke.io/arch: csmr
+    configmanagement.gke.io/system: "true"
+  name: reconciler-manager
+  namespace: config-management-system
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reconciler-manager
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: reconciler-manager
+        configsync.gke.io/deployment-name: reconciler-manager
+    spec:
+      containers:
+      - args:
+        - --enable-leader-election
+        - -v=1
+        command:
+        - /reconciler-manager
+        envFrom:
+        - configMapRef:
+            name: reconciler-manager
+            optional: true
+        image: ghcr.io/seankhliao/kpt-config-sync-reconciler-manager
+        name: reconciler-manager
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /deployment.yaml
+          name: configs
+          subPath: deployment.yaml
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: reconciler-manager
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - configMap:
+          name: reconciler-manager-cm
+        name: configs

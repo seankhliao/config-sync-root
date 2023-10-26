@@ -1,0 +1,16 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    configmanagement.gke.io/arch: csmr
+    configmanagement.gke.io/system: "true"
+  name: resource-group-leader-election-rolebinding
+  namespace: resource-group-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: resource-group-leader-election-role
+subjects:
+- kind: ServiceAccount
+  name: resource-group-sa
+  namespace: resource-group-system

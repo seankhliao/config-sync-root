@@ -1,0 +1,45 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  labels:
+    app.kubernetes.io/name: tekton-builds
+  name: blogengine
+  namespace: tekton-builds
+spec:
+  description: |
+    basic and publish a static site
+  displayName: blogengine
+  params:
+  - description: |
+      url to clone git repo from
+    name: url
+    type: string
+  - default: main
+    description: |
+      revision to checkout
+    name: revision
+    type: string
+  tasks:
+  - name: fetch-source
+    params:
+    - name: url
+      value: $(params.url)
+    - name: revision
+      value: $(params.revision)
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: cloned-repo
+  - name: publish
+    runAfter:
+    - fetch-source
+    taskRef:
+      name: blogengine
+    workspaces:
+    - name: module
+      workspace: cloned-repo
+  workspaces:
+  - description: |
+      workspace for holding the cloned repo
+    name: cloned-repo

@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app.kubernetes.io/name: tekton-builds
+  name: gotip
+  namespace: tekton-builds
+spec:
+  jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: tekton-builds
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: tekton-builds
+        spec:
+          containers:
+          - args:
+            - -d
+            - '{"tektonPipeline":"kaniko","repo":"go","commit":"main","image":"ghcr.io/seankhliao/go:tup-arm64"}'
+            - http://el-listener.tekton-builds.svc.cluster.local
+            image: curlimages/curl
+            name: curl
+          restartPolicy: Never
+      ttlSecondsAfterFinished: 86400
+  schedule: 0 */6 * * *

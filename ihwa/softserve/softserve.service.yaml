@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: softserve
+  name: softserve
+  namespace: softserve
+spec:
+  ports:
+  - name: git-ssh
+    port: 22
+    targetPort: 23231
+  selector:
+    app.kubernetes.io/name: softserve

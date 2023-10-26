@@ -1,0 +1,32 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    configmanagement.gke.io/system: "true"
+  name: namespaceselectors.configmanagement.gke.io
+spec:
+  group: configmanagement.gke.io
+  names:
+    kind: NamespaceSelector
+    plural: namespaceselectors
+    singular: namespaceselector
+  preserveUnknownFields: false
+  scope: Cluster
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        properties:
+          spec:
+            properties:
+              selector:
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+            required:
+            - selector
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true

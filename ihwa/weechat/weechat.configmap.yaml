@@ -1,0 +1,1195 @@
+apiVersion: v1
+data:
+  buflist.conf: |
+    #
+    # weechat -- buflist.conf
+    #
+    # WARNING: It is NOT recommended to edit this file by hand,
+    # especially if WeeChat is running.
+    #
+    # Use commands like /set or /fset to change settings in WeeChat.
+    #
+    # For more info, see: https://weechat.org/doc/weechat/quickstart/
+    #
+
+    [look]
+    add_newline = on
+    auto_scroll = 50
+    display_conditions = "${buffer.hidden}==0 && ${merged}==0 || ${name}==weechat"
+    enabled = on
+    mouse_jump_visited_buffer = off
+    mouse_move_buffer = on
+    mouse_wheel = on
+    nick_prefix = off
+    nick_prefix_empty = on
+    signals_refresh = ""
+    sort = "number,-active"
+    use_items = 1
+
+    [format]
+    buffer = "${format_number}${color_hotlist}${format_name}"
+    buffer_current = "${color:,blue}${format_buffer}"
+    hotlist = " ${color:green}(${hotlist}${color:green})"
+    hotlist_highlight = "${color:magenta}"
+    hotlist_low = "${color:white}"
+    hotlist_message = "${color:brown}"
+    hotlist_none = "${color:default}"
+    hotlist_private = "${color:green}"
+    hotlist_separator = "${color:default},"
+    indent = ""
+    lag = " ${color:green}[${color:brown}${lag}${color:green}]"
+    name = "${name}"
+    nick_prefix = "${color_nick_prefix}${nick_prefix}"
+    number = "${color:green}${number}${if:${number_displayed}?.: }"
+    tls_version = " ${color:default}(${if:${tls_version}==TLS1.3?${color:green}:${if:${tls_version}==TLS1.2?${color:yellow}:${color:red}}}${translate:${tls_version}}${color:default})"
+  fset.conf: |
+    #
+    # weechat -- fset.conf
+    #
+    # WARNING: It is NOT recommended to edit this file by hand,
+    # especially if WeeChat is running.
+    #
+    # Use commands like /set or /fset to change settings in WeeChat.
+    #
+    # For more info, see: https://weechat.org/doc/weechat/quickstart/
+    #
+
+    [look]
+    auto_refresh = "*"
+    auto_unmark = off
+    condition_catch_set = "${count} >= 1"
+    export_help_default = on
+    format_number = 1
+    marked_string = "*"
+    scroll_horizontal = 10
+    show_plugins_desc = off
+    sort = "~name"
+    unmarked_string = " "
+    use_color_value = off
+    use_keys = on
+    use_mute = off
+
+    [format]
+    export_help = "# ${description2}"
+    export_option = "/set ${name} ${quoted_value}"
+    export_option_null = "/unset ${name}"
+    option1 = ""
+    option2 = "${marked} ${name}  ${type}  ${value2}${newline}  ${empty_name}  ${_default_value}${color:darkgray} -- ${min}..${max}${newline}  ${empty_name}  ${description}"
+
+    [color]
+    color_name = 246
+    color_name_selected = default
+    default_value = default
+    default_value_selected = white
+    description = default
+    description_selected = white
+    file = default
+    file_changed = brown
+    file_changed_selected = yellow
+    file_selected = white
+    help_default_value = white
+    help_description = default
+    help_name = white
+    help_quotes = darkgray
+    help_values = default
+    index = cyan
+    index_selected = lightcyan
+    line_marked_bg1 = default
+    line_marked_bg2 = default
+    line_selected_bg1 = blue
+    line_selected_bg2 = red
+    marked = brown
+    marked_selected = yellow
+    max = default
+    max_selected = white
+    min = default
+    min_selected = white
+    name = default
+    name_changed = brown
+    name_changed_selected = yellow
+    name_selected = white
+    option = default
+    option_changed = brown
+    option_changed_selected = yellow
+    option_selected = white
+    parent_name = default
+    parent_name_selected = white
+    parent_value = cyan
+    parent_value_selected = lightcyan
+    quotes = darkgray
+    quotes_changed = default
+    quotes_changed_selected = white
+    quotes_selected = default
+    section = default
+    section_changed = brown
+    section_changed_selected = yellow
+    section_selected = white
+    string_values = default
+    string_values_selected = white
+    title_count_options = cyan
+    title_current_option = lightcyan
+    title_filter = yellow
+    title_marked_options = lightgreen
+    title_sort = white
+    type = green
+    type_selected = lightgreen
+    unmarked = default
+    unmarked_selected = white
+    value = cyan
+    value_changed = brown
+    value_changed_selected = yellow
+    value_selected = lightcyan
+    value_undef = magenta
+    value_undef_selected = lightmagenta
+  irc.conf: |
+    #
+    # weechat -- irc.conf
+    #
+    # WARNING: It is NOT recommended to edit this file by hand,
+    # especially if WeeChat is running.
+    #
+    # Use commands like /set or /fset to change settings in WeeChat.
+    #
+    # For more info, see: https://weechat.org/doc/weechat/quickstart/
+    #
+
+    config_version = 2
+
+    [look]
+    buffer_open_before_autojoin = on
+    buffer_open_before_join = off
+    buffer_switch_autojoin = off
+    buffer_switch_join = on
+    color_nicks_in_names = on
+    color_nicks_in_nicklist = on
+    color_nicks_in_server_messages = on
+    color_pv_nick_like_channel = on
+    ctcp_time_format = "%a, %d %b %Y %T %z"
+    display_account_message = on
+    display_away = local
+    display_ctcp_blocked = on
+    display_ctcp_reply = on
+    display_ctcp_unknown = on
+    display_extended_join = on
+    display_host_join = on
+    display_host_join_local = on
+    display_host_notice = on
+    display_host_quit = on
+    display_join_message = "329,332,333,366"
+    display_old_topic = on
+    display_pv_away_once = on
+    display_pv_back = on
+    display_pv_nick_change = on
+    display_pv_warning_address = off
+    highlight_channel = "$nick"
+    highlight_pv = "$nick"
+    highlight_server = "$nick"
+    highlight_tags_restrict = "irc_privmsg,irc_notice"
+    item_channel_modes_hide_args = "k"
+    item_display_server = buffer_plugin
+    item_nick_modes = on
+    item_nick_prefix = on
+    join_auto_add_chantype = off
+    msgbuffer_fallback = current
+    new_channel_position = none
+    new_pv_position = none
+    nick_completion_smart = speakers
+    nick_mode = prefix
+    nick_mode_empty = off
+    nicks_hide_password = "nickserv"
+    notice_as_pv = auto
+    notice_welcome_redirect = on
+    notice_welcome_tags = ""
+    notify_tags_ison = "notify_message"
+    notify_tags_whois = "notify_message"
+    part_closes_buffer = off
+    pv_buffer = independent
+    pv_tags = "notify_private"
+    raw_messages = 256
+    server_buffer = merge_with_core
+    smart_filter = on
+    smart_filter_account = on
+    smart_filter_chghost = on
+    smart_filter_delay = 5
+    smart_filter_join = on
+    smart_filter_join_unmask = 30
+    smart_filter_mode = "+"
+    smart_filter_nick = on
+    smart_filter_quit = on
+    smart_filter_setname = on
+    temporary_servers = off
+    topic_strip_colors = off
+    typing_status_nicks = off
+    typing_status_self = off
+
+    [color]
+    input_nick = lightcyan
+    item_channel_modes = default
+    item_lag_counting = default
+    item_lag_finished = yellow
+    item_nick_modes = default
+    item_tls_version_deprecated = yellow
+    item_tls_version_insecure = red
+    item_tls_version_ok = green
+    message_account = cyan
+    message_chghost = brown
+    message_join = green
+    message_kick = red
+    message_quit = red
+    message_setname = brown
+    mirc_remap = "1,-1:darkgray"
+    nick_prefixes = "y:lightred;q:lightred;a:lightcyan;o:lightgreen;h:lightmagenta;v:yellow;*:lightblue"
+    notice = green
+    reason_kick = default
+    reason_quit = default
+    topic_current = default
+    topic_new = white
+    topic_old = default
+
+    [network]
+    autoreconnect_delay_growing = 2
+    autoreconnect_delay_max = 600
+    ban_mask_default = "*!$ident@$host"
+    colors_receive = on
+    colors_send = on
+    lag_check = 60
+    lag_max = 1800
+    lag_min_show = 500
+    lag_reconnect = 300
+    lag_refresh_interval = 1
+    notify_check_ison = 1
+    notify_check_whois = 5
+    sasl_fail_unavailable = on
+    send_unknown_commands = off
+    whois_double_nick = off
+
+    [msgbuffer]
+
+    [ctcp]
+    action = ""
+    clientinfo = ""
+    finger = ""
+    ping = ""
+    source = ""
+    time = ""
+    userinfo = ""
+    version = ""
+
+    [ignore]
+    ignore = libera;#archlinux-reproducible;^KGB-.*$
+
+    [server_default]
+    addresses = ""
+    anti_flood_prio_high = 2
+    anti_flood_prio_low = 2
+    autoconnect = off
+    autojoin = ""
+    autojoin_dynamic = off
+    autoreconnect = on
+    autoreconnect_delay = 10
+    autorejoin = off
+    autorejoin_delay = 30
+    away_check = 0
+    away_check_max_nicks = 25
+    capabilities = ""
+    charset_message = message
+    command = ""
+    command_delay = 0
+    connection_timeout = 60
+    default_chantypes = "#&"
+    ipv6 = on
+    local_hostname = ""
+    msg_kick = ""
+    msg_part = "going... going... gone!"
+    msg_quit = "it can't be DNS?! it's always DNS!!!"
+    nicks = "seankhliao,arccy"
+    nicks_alternate = on
+    notify = ""
+    password = ""
+    proxy = ""
+    realname = ""
+    registered_mode = "r"
+    sasl_fail = continue
+    sasl_key = ""
+    sasl_mechanism = plain
+    sasl_password = ""
+    sasl_timeout = 15
+    sasl_username = ""
+    split_msg_max_length = 512
+    tls = on
+    tls_cert = ""
+    tls_dhkey_size = 2048
+    tls_fingerprint = ""
+    tls_password = ""
+    tls_priorities = "NORMAL:-VERS-SSL3.0"
+    tls_verify = on
+    usermode = ""
+    username = "seankhliao"
+
+    [server]
+    libera.addresses = "irc.libera.chat/6697"
+    libera.proxy
+    libera.ipv6
+    libera.tls = on
+    libera.tls_cert = "/weechat-secrets/id.pem"
+    libera.tls_password
+    libera.tls_priorities
+    libera.tls_dhkey_size
+    libera.tls_fingerprint
+    libera.tls_verify = on
+    libera.password
+    libera.capabilities
+    libera.sasl_mechanism = external
+    libera.sasl_username
+    libera.sasl_password
+    libera.sasl_key
+    libera.sasl_timeout
+    libera.sasl_fail
+    libera.autoconnect = on
+    libera.autoreconnect
+    libera.autoreconnect_delay
+    libera.nicks
+    libera.nicks_alternate
+    libera.username
+    libera.realname
+    libera.local_hostname
+    libera.usermode
+    libera.command
+    libera.command_delay
+    libera.autojoin = "#archlinux-offtopic,#go-nuts"
+    libera.autojoin_dynamic
+    libera.autorejoin
+    libera.autorejoin_delay
+    libera.connection_timeout
+    libera.anti_flood_prio_high
+    libera.anti_flood_prio_low
+    libera.away_check
+    libera.away_check_max_nicks
+    libera.msg_kick
+    libera.msg_part
+    libera.msg_quit
+    libera.notify
+    libera.split_msg_max_length
+    libera.charset_message
+    libera.default_chantypes
+    libera.registered_mode
+    oftc.addresses = "irc.oftc.net/6697"
+    oftc.proxy
+    oftc.ipv6
+    oftc.tls
+    oftc.tls_cert = "/weechat-secrets/id.pem"
+    oftc.tls_password
+    oftc.tls_priorities
+    oftc.tls_dhkey_size
+    oftc.tls_fingerprint
+    oftc.tls_verify
+    oftc.password
+    oftc.capabilities
+    oftc.sasl_mechanism
+    oftc.sasl_username
+    oftc.sasl_password
+    oftc.sasl_key
+    oftc.sasl_timeout
+    oftc.sasl_fail
+    oftc.autoconnect = on
+    oftc.autoreconnect
+    oftc.autoreconnect_delay
+    oftc.nicks
+    oftc.nicks_alternate
+    oftc.username
+    oftc.realname
+    oftc.local_hostname
+    oftc.usermode
+    oftc.command
+    oftc.command_delay
+    oftc.autojoin = "#moocows,#alpine-linux"
+    oftc.autojoin_dynamic
+    oftc.autorejoin
+    oftc.autorejoin_delay
+    oftc.connection_timeout
+    oftc.anti_flood_prio_high
+    oftc.anti_flood_prio_low
+    oftc.away_check
+    oftc.away_check_max_nicks
+    oftc.msg_kick
+    oftc.msg_part
+    oftc.msg_quit
+    oftc.notify
+    oftc.split_msg_max_length
+    oftc.charset_message
+    oftc.default_chantypes
+    oftc.registered_mode
+  logger.conf: |
+    #
+    # weechat -- logger.conf
+    #
+    # WARNING: It is NOT recommended to edit this file by hand,
+    # especially if WeeChat is running.
+    #
+    # Use commands like /set or /fset to change settings in WeeChat.
+    #
+    # For more info, see: https://weechat.org/doc/weechat/quickstart/
+    #
+
+    [look]
+    backlog = 8192
+    backlog_conditions = ""
+
+    [color]
+    backlog_end = darkgray
+    backlog_line = darkgray
+
+    [file]
+    auto_log = on
+    color_lines = on
+    flush_delay = 120
+    fsync = off
+    info_lines = off
+    log_conditions = ""
+    mask = "$plugin.$name.weechatlog"
+    name_lower_case = on
+    nick_prefix = ""
+    nick_suffix = ""
+    path = "%h/logs/"
+    replacement_char = "_"
+    rotation_compression_level = 20
+    rotation_compression_type = none
+    rotation_size_max = "0"
+    time_format = "%Y-%m-%d %H:%M:%S"
+
+    [level]
+    irc = 2
+
+    [mask]
+  relay.conf: |
+    #
+    # weechat -- relay.conf
+    #
+    # WARNING: It is NOT recommended to edit this file by hand,
+    # especially if WeeChat is running.
+    #
+    # Use commands like /set or /fset to change settings in WeeChat.
+    #
+    # For more info, see: https://weechat.org/doc/weechat/quickstart/
+    #
+
+    config_version = 2
+
+    [look]
+    auto_open_buffer = on
+    raw_messages = 256
+
+    [color]
+    client = cyan
+    status_active = green
+    status_auth_failed = lightmagenta
+    status_connecting = white
+    status_disconnected = lightred
+    status_waiting_auth = yellow
+    text = default
+    text_bg = default
+    text_selected = white
+
+    [network]
+    allow_empty_password = off
+    allowed_ips = ""
+    auth_timeout = 60
+    bind_address = ""
+    clients_purge_delay = 0
+    compression = 20
+    ipv6 = on
+    max_clients = 5
+    nonce_size = 16
+    password = "${sec.data.weechat}"
+    password_hash_algo = "*"
+    password_hash_iterations = 100000
+    tls_cert_key = "/weechat-secrets/relay.pem"
+    tls_priorities = "NORMAL:-VERS-SSL3.0"
+    totp_secret = ""
+    totp_window = 0
+    websocket_allowed_origins = ""
+
+    [irc]
+    backlog_max_minutes = 0
+    backlog_max_number = 1024
+    backlog_since_last_disconnect = on
+    backlog_since_last_message = off
+    backlog_tags = "irc_privmsg"
+    backlog_time_format = "[%H:%M] "
+
+    [weechat]
+    commands = ""
+
+    [port]
+    tls.irc = 7992
+    tls.weechat = 7993
+
+    [path]
+  sec.conf: |
+    #
+    # weechat -- sec.conf
+    #
+    # WARNING: It is NOT recommended to edit this file by hand,
+    # especially if WeeChat is running.
+    #
+    # Use commands like /set or /fset to change settings in WeeChat.
+    #
+    # For more info, see: https://weechat.org/doc/weechat/quickstart/
+    #
+
+    [crypt]
+    cipher = aes256
+    hash_algo = sha256
+    passphrase_command = "cat /weechat-secrets/weechat_pass"
+    salt = on
+
+    [data]
+    __passphrase__ = on
+    weechat = "01C437926B8B4CFDD006F379E34CD90813D94BA8A126A8E3BAE1207D51AD178C475BA61E638EA5D6554B266D768D2C1D5B6FBBEDF4D401995D8C"
+  weechat.conf: |
+    #
+    # weechat -- weechat.conf
+    #
+    # WARNING: It is NOT recommended to edit this file by hand,
+    # especially if WeeChat is running.
+    #
+    # Use commands like /set or /fset to change settings in WeeChat.
+    #
+    # For more info, see: https://weechat.org/doc/weechat/quickstart/
+    #
+
+    config_version = 2
+
+    [debug]
+
+    [startup]
+    command_after_plugins = ""
+    command_before_plugins = ""
+    display_logo = off
+    display_version = on
+    sys_rlimit = ""
+
+    [look]
+    align_end_of_lines = message
+    align_multiline_words = on
+    bar_more_down = "++"
+    bar_more_left = "<<"
+    bar_more_right = ">>"
+    bar_more_up = "--"
+    bare_display_exit_on_input = on
+    bare_display_time_format = "%H:%M"
+    buffer_auto_renumber = on
+    buffer_notify_default = all
+    buffer_position = end
+    buffer_search_case_sensitive = off
+    buffer_search_force_default = off
+    buffer_search_regex = off
+    buffer_search_where = prefix_message
+    buffer_time_format = "${color:253}%H${color:245}%M"
+    buffer_time_same = ""
+    chat_space_right = off
+    color_basic_force_bold = off
+    color_inactive_buffer = on
+    color_inactive_message = on
+    color_inactive_prefix = on
+    color_inactive_prefix_buffer = on
+    color_inactive_time = off
+    color_inactive_window = on
+    color_nick_offline = off
+    color_pairs_auto_reset = 5
+    color_real_white = off
+    command_chars = ""
+    command_incomplete = off
+    confirm_quit = off
+    confirm_upgrade = off
+    day_change = off
+    day_change_message_1date = "-- %a, %d %b %Y --"
+    day_change_message_2dates = "-- %%a, %%d %%b %%Y (%a, %d %b %Y) --"
+    eat_newline_glitch = off
+    emphasized_attributes = ""
+    highlight = ""
+    highlight_disable_regex = ""
+    highlight_regex = ""
+    highlight_tags = ""
+    hotlist_add_conditions = "${away} || ${buffer.num_displayed} == 0 || ${info:relay_client_count,weechat,connected} > 0"
+    hotlist_buffer_separator = ", "
+    hotlist_count_max = 2
+    hotlist_count_min_msg = 2
+    hotlist_names_count = 3
+    hotlist_names_length = 0
+    hotlist_names_level = 12
+    hotlist_names_merged_buffers = off
+    hotlist_prefix = "H: "
+    hotlist_remove = merged
+    hotlist_short_names = on
+    hotlist_sort = group_time_asc
+    hotlist_suffix = ""
+    hotlist_unique_numbers = on
+    hotlist_update_on_buffer_switch = on
+    input_cursor_scroll = 20
+    input_multiline_lead_linebreak = on
+    input_share = none
+    input_share_overwrite = off
+    input_undo_max = 32
+    item_away_message = on
+    item_buffer_filter = "*"
+    item_buffer_zoom = "!"
+    item_mouse_status = "M"
+    item_time_format = "%H:%M"
+    jump_current_to_previous_buffer = on
+    jump_previous_buffer_when_closing = on
+    jump_smart_back_to_buffer = on
+    key_bind_safe = on
+    key_grab_delay = 800
+    mouse = off
+    mouse_timer_delay = 100
+    nick_color_force = ""
+    nick_color_hash = djb2
+    nick_color_hash_salt = ""
+    nick_color_stop_chars = "_|["
+    nick_prefix = ""
+    nick_suffix = ""
+    paste_bracketed = on
+    paste_bracketed_timer_delay = 10
+    paste_max_lines = 1
+    prefix_action = "*"
+    prefix_align = right
+    prefix_align_max = 0
+    prefix_align_min = 0
+    prefix_align_more = "+"
+    prefix_align_more_after = on
+    prefix_buffer_align = right
+    prefix_buffer_align_max = 0
+    prefix_buffer_align_more = "+"
+    prefix_buffer_align_more_after = on
+    prefix_error = "!!"
+    prefix_join = ">>"
+    prefix_network = "~"
+    prefix_quit = "<<"
+    prefix_same_nick = ""
+    prefix_same_nick_middle = ""
+    prefix_suffix = "|"
+    quote_nick_prefix = "<"
+    quote_nick_suffix = ">"
+    quote_time_format = "%H:%M:%S"
+    read_marker = line
+    read_marker_always_show = off
+    read_marker_string = "*"
+    read_marker_update_on_buffer_switch = on
+    save_config_on_exit = on
+    save_config_with_fsync = off
+    save_layout_on_exit = none
+    scroll_amount = 3
+    scroll_bottom_after_switch = off
+    scroll_page_percent = 100
+    search_text_not_found_alert = on
+    separator_horizontal = "-"
+    separator_vertical = ""
+    tab_width = 1
+    time_format = "%a, %d %b %Y %T"
+    window_auto_zoom = off
+    window_separator_horizontal = on
+    window_separator_vertical = on
+    window_title = ""
+    word_chars_highlight = "!\u00A0,-,_,|,alnum"
+    word_chars_input = "!\u00A0,-,_,|,alnum"
+
+    [palette]
+
+    [color]
+    bar_more = lightmagenta
+    chat = default
+    chat_bg = default
+    chat_buffer = white
+    chat_channel = white
+    chat_day_change = cyan
+    chat_delimiters = darkgray
+    chat_highlight = 5
+    chat_highlight_bg = 0
+    chat_host = cyan
+    chat_inactive_buffer = default
+    chat_inactive_window = default
+    chat_nick = lightcyan
+    chat_nick_colors = "1,2,3,4,6,7,9,10,11,12,13,14,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,69,70,182,183,184,224,225,226,227"
+    chat_nick_offline = default
+    chat_nick_offline_highlight = default
+    chat_nick_offline_highlight_bg = blue
+    chat_nick_other = cyan
+    chat_nick_prefix = green
+    chat_nick_self = 5
+    chat_nick_suffix = green
+    chat_prefix_action = white
+    chat_prefix_buffer = brown
+    chat_prefix_buffer_inactive_buffer = default
+    chat_prefix_error = yellow
+    chat_prefix_join = lightgreen
+    chat_prefix_more = lightmagenta
+    chat_prefix_network = magenta
+    chat_prefix_quit = lightred
+    chat_prefix_suffix = gray
+    chat_read_marker = magenta
+    chat_read_marker_bg = default
+    chat_server = brown
+    chat_status_disabled = red
+    chat_status_enabled = green
+    chat_tags = red
+    chat_text_found = yellow
+    chat_text_found_bg = lightmagenta
+    chat_time = default
+    chat_time_delimiters = brown
+    chat_value = cyan
+    chat_value_null = blue
+    emphasized = yellow
+    emphasized_bg = magenta
+    input_actions = lightgreen
+    input_text_not_found = red
+    item_away = yellow
+    nicklist_away = cyan
+    nicklist_group = green
+    separator = blue
+    status_count_highlight = magenta
+    status_count_msg = brown
+    status_count_other = default
+    status_count_private = green
+    status_data_highlight = lightmagenta
+    status_data_msg = yellow
+    status_data_other = default
+    status_data_private = lightgreen
+    status_filter = green
+    status_more = yellow
+    status_mouse = green
+    status_name = white
+    status_name_insecure = lightmagenta
+    status_name_tls = white
+    status_nicklist_count = default
+    status_number = yellow
+    status_time = default
+
+    [completion]
+    base_word_until_cursor = on
+    command_inline = on
+    default_template = "%(nicks)|%(irc_channels)"
+    nick_add_space = on
+    nick_case_sensitive = off
+    nick_completer = ": "
+    nick_first_only = off
+    nick_ignore_chars = "[]`_-^"
+    partial_completion_alert = on
+    partial_completion_command = off
+    partial_completion_command_arg = off
+    partial_completion_count = on
+    partial_completion_other = off
+    partial_completion_templates = "config_options"
+
+    [history]
+    display_default = 0
+    max_buffer_lines_minutes = 0
+    max_buffer_lines_number = 0
+    max_commands = 100
+    max_visited_buffers = 50
+
+    [proxy]
+
+    [network]
+    connection_timeout = 60
+    gnutls_ca_system = on
+    gnutls_ca_user = ""
+    gnutls_handshake_timeout = 30
+    proxy_curl = ""
+
+    [plugin]
+    autoload = "*,!alias,!charset,!exec,!fifo,!guile,!javascript,!lua,!perl,!php,!ruby,!tcl,!spell,!xfer"
+    extension = ".so,.dll"
+    path = "%h/plugins"
+    save_config_on_unload = on
+
+    [signal]
+    sighup = "${if:${info:weechat_headless}?/reload:/quit -yes}"
+    sigquit = "/quit -yes"
+    sigterm = "/quit -yes"
+    sigusr1 = ""
+    sigusr2 = ""
+
+    [bar]
+    buflist.color_bg = default
+    buflist.color_bg_inactive = default
+    buflist.color_delim = default
+    buflist.color_fg = default
+    buflist.conditions = ""
+    buflist.filling_left_right = vertical
+    buflist.filling_top_bottom = columns_horizontal
+    buflist.hidden = off
+    buflist.items = "buflist"
+    buflist.position = top
+    buflist.priority = 0
+    buflist.separator = on
+    buflist.size = 0
+    buflist.size_max = 0
+    buflist.type = root
+    fset.color_bg = default
+    fset.color_bg_inactive = default
+    fset.color_delim = cyan
+    fset.color_fg = default
+    fset.conditions = "${buffer.full_name} == fset.fset"
+    fset.filling_left_right = vertical
+    fset.filling_top_bottom = horizontal
+    fset.hidden = off
+    fset.items = "fset"
+    fset.position = top
+    fset.priority = 0
+    fset.separator = on
+    fset.size = 3
+    fset.size_max = 3
+    fset.type = window
+    input.color_bg = default
+    input.color_bg_inactive = default
+    input.color_delim = cyan
+    input.color_fg = default
+    input.conditions = ""
+    input.filling_left_right = vertical
+    input.filling_top_bottom = horizontal
+    input.hidden = off
+    input.items = "[input_prompt]+(away),[input_search],[input_paste],input_text"
+    input.position = bottom
+    input.priority = 1000
+    input.separator = off
+    input.size = 0
+    input.size_max = 0
+    input.type = window
+    nicklist.color_bg = default
+    nicklist.color_bg_inactive = default
+    nicklist.color_delim = cyan
+    nicklist.color_fg = default
+    nicklist.conditions = "${nicklist}"
+    nicklist.filling_left_right = vertical
+    nicklist.filling_top_bottom = columns_vertical
+    nicklist.hidden = on
+    nicklist.items = "buffer_nicklist"
+    nicklist.position = right
+    nicklist.priority = 200
+    nicklist.separator = on
+    nicklist.size = 0
+    nicklist.size_max = 0
+    nicklist.type = window
+    status.color_bg = 0
+    status.color_bg_inactive = darkgray
+    status.color_delim = cyan
+    status.color_fg = default
+    status.conditions = ""
+    status.filling_left_right = vertical
+    status.filling_top_bottom = horizontal
+    status.hidden = off
+    status.items = "+buffer_name+(buffer_modes)+{buffer_nicklist_count}+buffer_zoom+buffer_filter,scroll,[lag],[hotlist],completion"
+    status.position = bottom
+    status.priority = 500
+    status.separator = off
+    status.size = 1
+    status.size_max = 0
+    status.type = window
+    title.color_bg = blue
+    title.color_bg_inactive = darkgray
+    title.color_delim = cyan
+    title.color_fg = default
+    title.conditions = ""
+    title.filling_left_right = vertical
+    title.filling_top_bottom = horizontal
+    title.hidden = on
+    title.items = "buffer_title"
+    title.position = top
+    title.priority = 500
+    title.separator = off
+    title.size = 1
+    title.size_max = 0
+    title.type = window
+
+    [custom_bar_item]
+
+    [layout]
+
+    [notify]
+
+    [filter]
+    irc_smart = on;*;irc_smart_filter;*
+
+    [key]
+    backspace = "/input delete_previous_char"
+    ctrl-_ = "/input undo"
+    ctrl-a = "/input move_beginning_of_line"
+    ctrl-b = "/input move_previous_char"
+    ctrl-c,_ = "/input insert \x1F"
+    ctrl-c,b = "/input insert \x02"
+    ctrl-c,c = "/input insert \x03"
+    ctrl-c,i = "/input insert \x1D"
+    ctrl-c,o = "/input insert \x0F"
+    ctrl-c,v = "/input insert \x16"
+    ctrl-d = "/input delete_next_char"
+    ctrl-down = "/window page_down"
+    ctrl-e = "/input move_end_of_line"
+    ctrl-f = "/input move_next_char"
+    ctrl-f1 = "/bar scroll buflist * -100%"
+    ctrl-f11 = "/bar scroll nicklist * -100%"
+    ctrl-f12 = "/bar scroll nicklist * +100%"
+    ctrl-f2 = "/bar scroll buflist * +100%"
+    ctrl-k = "/input delete_end_of_line"
+    ctrl-l = "/window refresh"
+    ctrl-left = "/buffer -1"
+    ctrl-n = "/buffer +1"
+    ctrl-p = "/buffer -1"
+    ctrl-r = "/input search_text_here"
+    ctrl-right = "/buffer +1"
+    ctrl-s,ctrl-u = "/allbuf /buffer set unread"
+    ctrl-t = "/input transpose_chars"
+    ctrl-u = "/input delete_beginning_of_line"
+    ctrl-up = "/window page_up"
+    ctrl-w = "/input delete_previous_word"
+    ctrl-x = "/buffer switch"
+    ctrl-y = "/input clipboard_paste"
+    delete = "/input delete_next_char"
+    down = "/input history_next"
+    end = "/input move_end_of_line"
+    f1 = "/bar scroll buflist * -100%"
+    f10 = "/bar scroll title * +30%"
+    f11 = "/bar scroll nicklist * -100%"
+    f12 = "/bar scroll nicklist * +100%"
+    f2 = "/bar scroll buflist * +100%"
+    f5 = "/buffer -1"
+    f6 = "/buffer +1"
+    f7 = "/window -1"
+    f8 = "/window +1"
+    f9 = "/bar scroll title * -30%"
+    home = "/input move_beginning_of_line"
+    left = "/input move_previous_char"
+    meta-- = "/filter toggle @"
+    meta-/ = "/buffer jump last_displayed"
+    meta-0 = "/buffer *10"
+    meta-1 = "/buffer *1"
+    meta-2 = "/buffer *2"
+    meta-3 = "/buffer *3"
+    meta-4 = "/buffer *4"
+    meta-5 = "/buffer *5"
+    meta-6 = "/buffer *6"
+    meta-7 = "/buffer *7"
+    meta-8 = "/buffer *8"
+    meta-9 = "/buffer *9"
+    meta-< = "/buffer jump prev_visited"
+    meta-= = "/filter toggle"
+    meta-> = "/buffer jump next_visited"
+    meta-B = "/buflist toggle"
+    meta-N = "/bar toggle nicklist"
+    meta-_ = "/input redo"
+    meta-a = "/buffer jump smart"
+    meta-b = "/input move_previous_word"
+    meta-d = "/input delete_next_word"
+    meta-down = "/buffer +1"
+    meta-end = "/window scroll_bottom"
+    meta-f = "/input move_next_word"
+    meta-f1 = "/bar scroll buflist * b"
+    meta-f11 = "/bar scroll nicklist * b"
+    meta-f12 = "/bar scroll nicklist * e"
+    meta-f2 = "/bar scroll buflist * e"
+    meta-h = "/hotlist clear"
+    meta-home = "/window scroll_top"
+    meta-j,0,1 = "/buffer *1"
+    meta-j,0,2 = "/buffer *2"
+    meta-j,0,3 = "/buffer *3"
+    meta-j,0,4 = "/buffer *4"
+    meta-j,0,5 = "/buffer *5"
+    meta-j,0,6 = "/buffer *6"
+    meta-j,0,7 = "/buffer *7"
+    meta-j,0,8 = "/buffer *8"
+    meta-j,0,9 = "/buffer *9"
+    meta-j,1,0 = "/buffer *10"
+    meta-j,1,1 = "/buffer *11"
+    meta-j,1,2 = "/buffer *12"
+    meta-j,1,3 = "/buffer *13"
+    meta-j,1,4 = "/buffer *14"
+    meta-j,1,5 = "/buffer *15"
+    meta-j,1,6 = "/buffer *16"
+    meta-j,1,7 = "/buffer *17"
+    meta-j,1,8 = "/buffer *18"
+    meta-j,1,9 = "/buffer *19"
+    meta-j,2,0 = "/buffer *20"
+    meta-j,2,1 = "/buffer *21"
+    meta-j,2,2 = "/buffer *22"
+    meta-j,2,3 = "/buffer *23"
+    meta-j,2,4 = "/buffer *24"
+    meta-j,2,5 = "/buffer *25"
+    meta-j,2,6 = "/buffer *26"
+    meta-j,2,7 = "/buffer *27"
+    meta-j,2,8 = "/buffer *28"
+    meta-j,2,9 = "/buffer *29"
+    meta-j,3,0 = "/buffer *30"
+    meta-j,3,1 = "/buffer *31"
+    meta-j,3,2 = "/buffer *32"
+    meta-j,3,3 = "/buffer *33"
+    meta-j,3,4 = "/buffer *34"
+    meta-j,3,5 = "/buffer *35"
+    meta-j,3,6 = "/buffer *36"
+    meta-j,3,7 = "/buffer *37"
+    meta-j,3,8 = "/buffer *38"
+    meta-j,3,9 = "/buffer *39"
+    meta-j,4,0 = "/buffer *40"
+    meta-j,4,1 = "/buffer *41"
+    meta-j,4,2 = "/buffer *42"
+    meta-j,4,3 = "/buffer *43"
+    meta-j,4,4 = "/buffer *44"
+    meta-j,4,5 = "/buffer *45"
+    meta-j,4,6 = "/buffer *46"
+    meta-j,4,7 = "/buffer *47"
+    meta-j,4,8 = "/buffer *48"
+    meta-j,4,9 = "/buffer *49"
+    meta-j,5,0 = "/buffer *50"
+    meta-j,5,1 = "/buffer *51"
+    meta-j,5,2 = "/buffer *52"
+    meta-j,5,3 = "/buffer *53"
+    meta-j,5,4 = "/buffer *54"
+    meta-j,5,5 = "/buffer *55"
+    meta-j,5,6 = "/buffer *56"
+    meta-j,5,7 = "/buffer *57"
+    meta-j,5,8 = "/buffer *58"
+    meta-j,5,9 = "/buffer *59"
+    meta-j,6,0 = "/buffer *60"
+    meta-j,6,1 = "/buffer *61"
+    meta-j,6,2 = "/buffer *62"
+    meta-j,6,3 = "/buffer *63"
+    meta-j,6,4 = "/buffer *64"
+    meta-j,6,5 = "/buffer *65"
+    meta-j,6,6 = "/buffer *66"
+    meta-j,6,7 = "/buffer *67"
+    meta-j,6,8 = "/buffer *68"
+    meta-j,6,9 = "/buffer *69"
+    meta-j,7,0 = "/buffer *70"
+    meta-j,7,1 = "/buffer *71"
+    meta-j,7,2 = "/buffer *72"
+    meta-j,7,3 = "/buffer *73"
+    meta-j,7,4 = "/buffer *74"
+    meta-j,7,5 = "/buffer *75"
+    meta-j,7,6 = "/buffer *76"
+    meta-j,7,7 = "/buffer *77"
+    meta-j,7,8 = "/buffer *78"
+    meta-j,7,9 = "/buffer *79"
+    meta-j,8,0 = "/buffer *80"
+    meta-j,8,1 = "/buffer *81"
+    meta-j,8,2 = "/buffer *82"
+    meta-j,8,3 = "/buffer *83"
+    meta-j,8,4 = "/buffer *84"
+    meta-j,8,5 = "/buffer *85"
+    meta-j,8,6 = "/buffer *86"
+    meta-j,8,7 = "/buffer *87"
+    meta-j,8,8 = "/buffer *88"
+    meta-j,8,9 = "/buffer *89"
+    meta-j,9,0 = "/buffer *90"
+    meta-j,9,1 = "/buffer *91"
+    meta-j,9,2 = "/buffer *92"
+    meta-j,9,3 = "/buffer *93"
+    meta-j,9,4 = "/buffer *94"
+    meta-j,9,5 = "/buffer *95"
+    meta-j,9,6 = "/buffer *96"
+    meta-j,9,7 = "/buffer *97"
+    meta-j,9,8 = "/buffer *98"
+    meta-j,9,9 = "/buffer *99"
+    meta-j,meta-f = "/buffer -"
+    meta-j,meta-l = "/buffer +"
+    meta-j,meta-r = "/server raw"
+    meta-j,meta-s = "/server jump"
+    meta-k = "/input grab_key_command"
+    meta-l = "/window bare"
+    meta-left = "/buffer -1"
+    meta-m = "/mute mouse toggle"
+    meta-n = "/window scroll_next_highlight"
+    meta-p = "/window scroll_previous_highlight"
+    meta-pgdn = "/window scroll_down"
+    meta-pgup = "/window scroll_up"
+    meta-r = "/input delete_line"
+    meta-return = "/input insert \n"
+    meta-right = "/buffer +1"
+    meta-s = "/mute spell toggle"
+    meta-u = "/window scroll_unread"
+    meta-up = "/buffer -1"
+    meta-w,meta-b = "/window balance"
+    meta-w,meta-down = "/window down"
+    meta-w,meta-left = "/window left"
+    meta-w,meta-right = "/window right"
+    meta-w,meta-s = "/window swap"
+    meta-w,meta-up = "/window up"
+    meta-x = "/buffer zoom"
+    meta-z = "/window zoom"
+    pgdn = "/window page_down"
+    pgup = "/window page_up"
+    return = "/input return"
+    right = "/input move_next_char"
+    shift-tab = "/input complete_previous"
+    tab = "/input complete_next"
+    up = "/input history_previous"
+
+    [key_search]
+    ctrl-q = "/input search_stop"
+    ctrl-r = "/input search_switch_regex"
+    down = "/input search_next"
+    meta-c = "/input search_switch_case"
+    return = "/input search_stop_here"
+    tab = "/input search_switch_where"
+    up = "/input search_previous"
+
+    [key_cursor]
+    @chat:Q = "hsignal:chat_quote_time_prefix_message;/cursor stop"
+    @chat:m = "hsignal:chat_quote_message;/cursor stop"
+    @chat:q = "hsignal:chat_quote_prefix_message;/cursor stop"
+    @item(buffer_nicklist):K = "/window ${_window_number};/kickban ${nick}"
+    @item(buffer_nicklist):b = "/window ${_window_number};/ban ${nick}"
+    @item(buffer_nicklist):k = "/window ${_window_number};/kick ${nick}"
+    @item(buffer_nicklist):q = "/window ${_window_number};/query ${nick};/cursor stop"
+    @item(buffer_nicklist):w = "/window ${_window_number};/whois ${nick}"
+    down = "/cursor move down"
+    left = "/cursor move left"
+    meta-down = "/cursor move area_down"
+    meta-left = "/cursor move area_left"
+    meta-right = "/cursor move area_right"
+    meta-up = "/cursor move area_up"
+    return = "/cursor stop"
+    right = "/cursor move right"
+    up = "/cursor move up"
+
+    [key_mouse]
+    @*:button3 = "/cursor go ${_x},${_y}"
+    @bar(buflist):ctrl-wheeldown = "hsignal:buflist_mouse"
+    @bar(buflist):ctrl-wheelup = "hsignal:buflist_mouse"
+    @bar(input):button2 = "/input grab_mouse_area"
+    @bar(nicklist):button1-gesture-down = "/bar scroll nicklist ${_window_number} +100%"
+    @bar(nicklist):button1-gesture-down-long = "/bar scroll nicklist ${_window_number} e"
+    @bar(nicklist):button1-gesture-up = "/bar scroll nicklist ${_window_number} -100%"
+    @bar(nicklist):button1-gesture-up-long = "/bar scroll nicklist ${_window_number} b"
+    @bar:wheeldown = "/bar scroll ${_bar_name} ${_window_number} +20%"
+    @bar:wheelup = "/bar scroll ${_bar_name} ${_window_number} -20%"
+    @chat(fset.fset):button1 = "/window ${_window_number};/fset -go ${_chat_line_y}"
+    @chat(fset.fset):button2* = "hsignal:fset_mouse"
+    @chat(fset.fset):wheeldown = "/fset -down 5"
+    @chat(fset.fset):wheelup = "/fset -up 5"
+    @chat(script.scripts):button1 = "/window ${_window_number};/script go ${_chat_line_y}"
+    @chat(script.scripts):button2 = "/window ${_window_number};/script go ${_chat_line_y};/script installremove -q ${script_name_with_extension}"
+    @chat(script.scripts):wheeldown = "/script down 5"
+    @chat(script.scripts):wheelup = "/script up 5"
+    @chat:button1 = "/window ${_window_number}"
+    @chat:button1-gesture-left = "/window ${_window_number};/buffer -1"
+    @chat:button1-gesture-left-long = "/window ${_window_number};/buffer 1"
+    @chat:button1-gesture-right = "/window ${_window_number};/buffer +1"
+    @chat:button1-gesture-right-long = "/window ${_window_number};/buffer +"
+    @chat:ctrl-wheeldown = "/window scroll_horiz -window ${_window_number} +10%"
+    @chat:ctrl-wheelup = "/window scroll_horiz -window ${_window_number} -10%"
+    @chat:wheeldown = "/window scroll_down -window ${_window_number}"
+    @chat:wheelup = "/window scroll_up -window ${_window_number}"
+    @item(buffer_nicklist):button1 = "/window ${_window_number};/query ${nick}"
+    @item(buffer_nicklist):button1-gesture-left = "/window ${_window_number};/kick ${nick}"
+    @item(buffer_nicklist):button1-gesture-left-long = "/window ${_window_number};/kickban ${nick}"
+    @item(buffer_nicklist):button2 = "/window ${_window_number};/whois ${nick}"
+    @item(buffer_nicklist):button2-gesture-left = "/window ${_window_number};/ban ${nick}"
+    @item(buflist):button1* = "hsignal:buflist_mouse"
+    @item(buflist):button2* = "hsignal:buflist_mouse"
+    @item(buflist2):button1* = "hsignal:buflist_mouse"
+    @item(buflist2):button2* = "hsignal:buflist_mouse"
+    @item(buflist3):button1* = "hsignal:buflist_mouse"
+    @item(buflist3):button2* = "hsignal:buflist_mouse"
+kind: ConfigMap
+metadata:
+  name: weechat-gf5987h92t
+  namespace: weechat

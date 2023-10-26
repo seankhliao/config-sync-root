@@ -1,0 +1,70 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  labels:
+    app.kubernetes.io/name: tekton-builds
+    event-listener: listener
+  name: softserve-kaniko
+  namespace: tekton-builds
+spec:
+  bindings:
+  - name: reponame
+    value: $(body.repo)
+  - name: imagename
+    value: $(body.image)
+  - name: repourl
+    value: $(extensions.repourl)
+  - name: revision
+    value: $(body.commit)
+  - name: shortrev
+    value: $(extensions.shortrev)
+  interceptors:
+  - params:
+    - name: filter
+      value: body.tektonPipeline == "kaniko"
+    - name: overlays
+      value:
+      - expression: '"git+ssh://tekton-ihwa@softserve.softserve.svc/REPO.git".replace("REPO", body.repo)'
+        key: repourl
+      - expression: body.commit.truncate(7)
+        key: shortrev
+    ref:
+      name: cel
+  template:
+    spec:
+      params:
+      - name: reponame
+      - name: revision
+      - name: repourl
+      - name: shortrev
+      - name: imagename
+      resourcetemplates:
+      - apiVersion: tekton.dev/v1
+        kind: PipelineRun
+        metadata:
+          generateName: $(tt.params.reponame)-$(tt.params.shortrev)-
+        spec:
+          params:
+          - name: revision
+            value: $(tt.params.revision)
+          - name: url
+            value: $(tt.params.repourl)
+          - name: imagename
+            value: $(tt.params.imagename)
+          pipelineRef:
+            name: kaniko
+          taskRunSpecs:
+          - pipelineTaskName: fetch-source
+            serviceAccountName: softserve-clone
+          workspaces:
+          - name: cloned-repo
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Gi
+          - name: dockerconfig
+            secret:
+              secretName: ghcr-publish

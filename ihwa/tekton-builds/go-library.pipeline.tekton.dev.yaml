@@ -1,0 +1,45 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  labels:
+    app.kubernetes.io/name: tekton-builds
+  name: go-library
+  namespace: tekton-builds
+spec:
+  description: |
+    basic build / test / lints for a go module
+  displayName: Go Library
+  params:
+  - description: |
+      url to clone git repo from
+    name: url
+    type: string
+  - default: main
+    description: |
+      revision to checkout
+    name: revision
+    type: string
+  tasks:
+  - name: fetch-source
+    params:
+    - name: url
+      value: $(params.url)
+    - name: revision
+      value: $(params.revision)
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: cloned-repo
+  - name: build-test
+    runAfter:
+    - fetch-source
+    taskRef:
+      name: go-build-test
+    workspaces:
+    - name: module
+      workspace: cloned-repo
+  workspaces:
+  - description: |
+      workspace for holding the cloned repo
+    name: cloned-repo

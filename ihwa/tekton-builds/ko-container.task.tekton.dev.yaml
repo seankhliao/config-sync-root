@@ -1,0 +1,59 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  labels:
+    app.kubernetes.io/name: tekton-builds
+  name: ko-container
+  namespace: tekton-builds
+spec:
+  description: |
+    build and test a go module with ko
+  displayName: ko build
+  params:
+  - name: reponame
+    type: string
+  stepTemplate:
+    env:
+    - name: GOFLAGS
+      value: -trimpath '-ldflags=-s -w' -buildvcs=false
+    - name: CGO_ENABLED
+      value: "0"
+    - name: GOMODCACHE
+      value: /volumes/gomodcache
+    - name: GOCACHE
+      value: /volumes/gobuildcache
+    - name: GOPROXY
+      value: http://goproxy.goproxy.svc.cluster.local,https://proxy.golang.org,direct
+    image: ghcr.io/seankhliao/go:tip-arm64
+    volumeMounts:
+    - mountPath: /volumes/gomodcache
+      name: gomodcache
+    - mountPath: /volumes/gobuildcache
+      name: gobuildcache
+    workingDir: $(workspaces.module.path)
+  steps:
+  - name: go-version
+    script: |
+      go version
+  - name: ko-version
+    script: |
+      ko version
+  - name: staticcheck
+    script: |
+      staticcheck ./...
+  - name: test
+    script: |
+      go test -vet=all ./...
+  - env:
+    - name: KO_DOCKER_REPO
+      value: ghcr.io/seankhliao/$(params.reponame)
+    name: ko-build
+    script: |
+      ko build --platform linux/amd64,linux/arm64 --bare --image-refs .images.txt
+  volumes:
+  - emptyDir: {}
+    name: gomodcache
+  - emptyDir: {}
+    name: gobuildcache
+  workspaces:
+  - name: module

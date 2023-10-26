@@ -1,0 +1,16 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/instance: eg
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: envoy-gateway
+    app.kubernetes.io/version: latest
+    helm.sh/chart: gateway-helm-v0.0.0-latest
+  name: eg-gateway-helm-metrics-reader
+  namespace: envoy-gateway-system
+rules:
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get

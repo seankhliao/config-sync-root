@@ -1,0 +1,50 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  labels:
+    app.kubernetes.io/name: tekton-builds
+  name: go-build-test
+  namespace: tekton-builds
+spec:
+  description: |
+    build and test a go module with tip
+  displayName: Build and test a Go Module
+  stepTemplate:
+    env:
+    - name: GOFLAGS
+      value: -trimpath '-ldflags=-s -w' -buildvcs=false
+    - name: CGO_ENABLED
+      value: "0"
+    - name: GOMODCACHE
+      value: /volumes/gomodcache
+    - name: GOCACHE
+      value: /volumes/gobuildcache
+    - name: GOPROXY
+      value: http://goproxy.goproxy.svc.cluster.local,https://proxy.golang.org,direct
+    image: ghcr.io/seankhliao/go:tip-arm64
+    volumeMounts:
+    - mountPath: /volumes/gomodcache
+      name: gomodcache
+    - mountPath: /volumes/gobuildcache
+      name: gobuildcache
+    workingDir: $(workspaces.module.path)
+  steps:
+  - name: version
+    script: |
+      go version
+  - name: build
+    script: |
+      go build ./...
+  - name: staticcheck
+    script: |
+      staticcheck ./...
+  - name: test
+    script: |
+      go test -vet=all ./...
+  volumes:
+  - emptyDir: {}
+    name: gomodcache
+  - emptyDir: {}
+    name: gobuildcache
+  workspaces:
+  - name: module

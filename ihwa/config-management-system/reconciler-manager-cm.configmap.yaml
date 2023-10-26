@@ -1,0 +1,150 @@
+apiVersion: v1
+data:
+  deployment.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: # this field will be assigned dynamically by the reconciler-manager
+      namespace: config-management-system
+      labels:
+        app: reconciler
+        configmanagement.gke.io/system: "true"
+        configmanagement.gke.io/arch: "csmr"
+    spec:
+      minReadySeconds: 10
+      replicas: 1
+      strategy:
+        type: Recreate
+      selector:
+        matchLabels:
+          app: reconciler
+          configsync.gke.io/deployment-name: "" # this field will be assigned dynamically by the reconciler-manager
+      template:
+        metadata:
+          labels:
+            app: reconciler
+            configsync.gke.io/deployment-name: "" # this field will be assigned dynamically by the reconciler-manager
+            configsync.gke.io/sync-kind: "" # this field will be assigned dynamically by the reconciler-manager
+            configsync.gke.io/sync-name: "" # this field will be assigned dynamically by the reconciler-manager
+            configsync.gke.io/sync-namespace: "" # this field will be assigned dynamically by the reconciler-manager
+            configsync.gke.io/sync-generation: "" # this field will be assigned dynamically by the reconciler-manager
+          annotations:
+            cluster-autoscaler.kubernetes.io/safe-to-evict: "true" # this annotation is needed so that pods doesn't block scale down
+        spec:
+          serviceAccountName: # this field will be assigned dynamically by the reconciler-manager
+          containers:
+          - name: hydration-controller
+            image: ghcr.io/seankhliao/kpt-config-sync-hydration-controller
+            command:
+            - /hydration-controller
+            args:
+            - "--repo-root=/repo"
+            - "--source-root=source"
+            - "--hydrated-root=hydrated"
+            - "--source-link=rev"
+            - "--hydrated-link=rev"
+            volumeMounts:
+            - name: repo
+              mountPath: /repo
+            imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                - NET_RAW
+              runAsUser: 65533
+            resources:
+              requests:
+                cpu: "10m"
+                memory: "100Mi"
+          - name: reconciler
+            image: ghcr.io/seankhliao/kpt-config-sync-reconciler
+            command:
+            - /reconciler
+            args:
+            - "--repo-root=/repo"
+            - "--source-dir=/repo/source/rev"
+            - "--hydrated-root=/repo/hydrated"
+            - "--hydrated-link=rev"
+            env:
+            - name: KUBECACHEDIR
+              value: "/.kube/cache"
+            volumeMounts:
+            - name: repo
+              mountPath: /repo
+              readOnly: true
+            - name: kube
+              mountPath: /.kube
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "200Mi"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                - NET_RAW
+            imagePullPolicy: IfNotPresent
+          - name: git-sync
+            image: registry.k8s.io/git-sync/git-sync:v4.0.0
+            args: ["--root=/repo/source", "--dest=rev", "--max-sync-failures=30", "--error-file=error.json"]
+            volumeMounts:
+            - name: repo
+              mountPath: /repo
+            - name: git-creds
+              mountPath: /etc/git-secret
+              readOnly: true
+            imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                - NET_RAW
+              runAsUser: 65533
+            resources:
+              requests:
+                cpu: "10m"
+                memory: "200Mi"
+          - name: oci-sync
+            image: ghcr.io/seankhliao/kpt-config-sync-oci-sync
+            args: ["--root=/repo/source", "--dest=rev", "--max-sync-failures=30", "--error-file=error.json"]
+            volumeMounts:
+            - name: repo
+              mountPath: /repo
+            imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                - NET_RAW
+              runAsUser: 65533
+            resources:
+              requests:
+                cpu: "10m"
+                memory: "200Mi"
+          volumes:
+          - name: repo
+            emptyDir: {}
+          - name: kube
+            emptyDir: {}
+          - name: git-creds
+            secret:
+              secretName: git-creds
+              defaultMode: 288
+          securityContext:
+            fsGroup: 65533
+            runAsUser: 1000
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+kind: ConfigMap
+metadata:
+  labels:
+    configmanagement.gke.io/arch: csmr
+    configmanagement.gke.io/system: "true"
+  name: reconciler-manager-cm
+  namespace: config-management-system

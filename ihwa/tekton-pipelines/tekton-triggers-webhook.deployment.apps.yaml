@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/instance: default
+    app.kubernetes.io/name: tekton-triggers
+    app.kubernetes.io/part-of: tekton-triggers
+    app.kubernetes.io/version: v0.25.0
+    triggers.tekton.dev/release: v0.25.0
+  name: tekton-triggers-webhook
+  namespace: tekton-pipelines
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: webhook
+      app.kubernetes.io/instance: default
+      app.kubernetes.io/name: tekton-triggers
+      app.kubernetes.io/part-of: tekton-triggers
+  template:
+    metadata:
+      labels:
+        app: tekton-triggers-webhook
+        app.kubernetes.io/component: webhook
+        app.kubernetes.io/instance: default
+        app.kubernetes.io/name: tekton-triggers
+        app.kubernetes.io/part-of: tekton-triggers
+        app.kubernetes.io/version: v0.25.0
+        triggers.tekton.dev/release: v0.25.0
+        version: v0.25.0
+    spec:
+      containers:
+      - env:
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONFIG_LOGGING_NAME
+          value: config-logging-triggers
+        - name: WEBHOOK_SERVICE_NAME
+          value: tekton-triggers-webhook
+        - name: WEBHOOK_SECRET_NAME
+          value: triggers-webhook-certs
+        - name: METRICS_DOMAIN
+          value: tekton.dev/triggers
+        - name: CONFIG_LEADERELECTION_NAME
+          value: config-leader-election-triggers-webhook
+        image: gcr.io/tekton-releases/github.com/tektoncd/triggers/cmd/webhook:v0.25.0@sha256:954347e26c030162ac7c823fb617989fc68a276b7ba061fd3c71f265a555af91
+        name: webhook
+        ports:
+        - containerPort: 9000
+          name: metrics
+        - containerPort: 8008
+          name: profiling
+        - containerPort: 8443
+          name: https-webhook
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
+      serviceAccountName: tekton-triggers-webhook

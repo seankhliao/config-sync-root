@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: zot
+  name: zot
+  namespace: zot
+spec:
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zot
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: zot
+    spec:
+      containers:
+      - args:
+        - serve
+        - /etc/zot/config.yaml
+        image: ghcr.io/project-zot/zot-minimal-linux-arm64:v1.4.3
+        name: zot
+        ports:
+        - containerPort: 8080
+          name: http
+        volumeMounts:
+        - mountPath: /etc/zot
+          name: config
+        - mountPath: /data
+          name: data
+      enableServiceLinks: false
+      volumes:
+      - configMap:
+          name: zot
+        name: config
+      - name: data
+        persistentVolumeClaim:
+          claimName: zot

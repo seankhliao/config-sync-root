@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: admission-webhook
+    configmanagement.gke.io/arch: csmr
+    configmanagement.gke.io/system: "true"
+  name: admission-webhook
+  namespace: config-management-system
+spec:
+  minReadySeconds: 10
+  replicas: 2
+  selector:
+    matchLabels:
+      app: admission-webhook
+  template:
+    metadata:
+      labels:
+        app: admission-webhook
+    spec:
+      containers:
+      - command:
+        - /admission-webhook
+        - --graceful-shutdown-timeout=10s
+        - --health-probe-bind-addr=:10258
+        image: ghcr.io/seankhliao/kpt-config-sync-admission-webhook
+        name: admission-webhook
+        ports:
+        - containerPort: 10250
+          name: admission
+          protocol: TCP
+        - containerPort: 10258
+          name: readyz
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /readyz
+            port: readyz
+            scheme: HTTP
+          periodSeconds: 1
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: 1
+            memory: 2Gi
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /certs
+          name: cert
+          readOnly: true
+      serviceAccountName: admission-webhook
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: admission-webhook-cert

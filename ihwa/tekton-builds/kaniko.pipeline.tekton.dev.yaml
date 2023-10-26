@@ -1,0 +1,53 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  labels:
+    app.kubernetes.io/name: tekton-builds
+  name: kaniko
+  namespace: tekton-builds
+spec:
+  description: |
+    Build an image with kaniko
+  displayName: Kaniko
+  params:
+  - description: |
+      url to clone git repo from
+    name: url
+    type: string
+  - default: main
+    description: |
+      revision to checkout
+    name: revision
+    type: string
+  - name: imagename
+    type: string
+  tasks:
+  - name: fetch-source
+    params:
+    - name: url
+      value: $(params.url)
+    - name: revision
+      value: $(params.revision)
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: cloned-repo
+  - name: kaniko
+    params:
+    - name: IMAGE
+      value: $(params.imagename)
+    runAfter:
+    - fetch-source
+    taskRef:
+      name: kaniko
+    workspaces:
+    - name: source
+      workspace: cloned-repo
+    - name: dockerconfig
+      workspace: dockerconfig
+  workspaces:
+  - description: |
+      workspace for holding the cloned repo
+    name: cloned-repo
+  - name: dockerconfig

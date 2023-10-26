@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: bazelremote
+  name: bazelremote
+  namespace: bazelremote
+spec:
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bazelremote
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: bazelremote
+    spec:
+      containers:
+      - env:
+        - name: BAZEL_REMOTE_DIR
+          value: /data
+        - name: BAZEL_REMOTE_MAX_SIZE
+          value: "40"
+        image: docker.io/buchgr/bazel-remote-cache:v2.4.3
+        livenessProbe:
+          failureThreshold: 3
+          grpc:
+            port: 9092
+            service: /grpc.health.v1.Health/Check
+          initialDelaySeconds: 3
+          periodSeconds: 1
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: bazel-remote-cache
+        ports:
+        - containerPort: 9092
+          name: grpc
+          protocol: TCP
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          grpc:
+            port: 9092
+            service: /grpc.health.v1.Health/Check
+          periodSeconds: 3
+          successThreshold: 1
+          timeoutSeconds: 10
+        volumeMounts:
+        - mountPath: /data
+          name: data
+      enableServiceLinks: false
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: bazelremote

@@ -1,0 +1,48 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    configmanagement.gke.io/arch: csmr
+    configmanagement.gke.io/system: "true"
+  name: configsync.gke.io:ns-reconciler
+rules:
+- apiGroups:
+  - configsync.gke.io
+  resources:
+  - reposyncs
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+  - patch
+- apiGroups:
+  - configsync.gke.io
+  resources:
+  - reposyncs/status
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+  - patch
+- apiGroups:
+  - kpt.dev
+  resources:
+  - resourcegroups
+  verbs:
+  - '*'
+- apiGroups:
+  - kpt.dev
+  resources:
+  - resourcegroups/status
+  verbs:
+  - '*'
+- apiGroups:
+  - policy
+  resourceNames:
+  - acm-psp
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use

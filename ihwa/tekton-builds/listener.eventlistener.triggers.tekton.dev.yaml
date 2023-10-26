@@ -1,0 +1,15 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  labels:
+    app.kubernetes.io/name: tekton-builds
+  name: listener
+  namespace: tekton-builds
+spec:
+  labelSelector:
+    matchLabels:
+      event-listener: listener
+  resources:
+    kubernetesResource:
+      servicePort: 80
+  serviceAccountName: listener

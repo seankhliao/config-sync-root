@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: otelcol
+  name: otelcol
+  namespace: otelcol
+spec:
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: otelcol
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: otelcol
+    spec:
+      containers:
+      - args:
+        - --config=file:/etc/otelcol/config.yaml
+        - --feature-gates=telemetry.useOtelForInternalMetrics,telemetry.useOtelWithSDKConfigurationForInternalTelemetry
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/run/secrets/gcp/serviceaccount.json
+        envFrom:
+        - secretRef:
+            name: otelcol
+        image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.83.0
+        livenessProbe:
+          httpGet:
+            path: /
+            port: healthcheck
+        name: otelcol
+        ports:
+        - containerPort: 1777
+          name: pprof
+        - containerPort: 4317
+          name: otlp
+        - containerPort: 13133
+          name: healthcheck
+        - containerPort: 55679
+          name: zpages
+        readinessProbe:
+          httpGet:
+            path: /
+            port: healthcheck
+        startupProbe:
+          httpGet:
+            path: /
+            port: healthcheck
+        volumeMounts:
+        - mountPath: /etc/otelcol
+          name: config
+        - mountPath: /var/run/secrets/gcp
+          name: gcp
+      enableServiceLinks: false
+      volumes:
+      - configMap:
+          name: otelcol
+        name: config
+      - name: gcp
+        secret:
+          secretName: gcp
