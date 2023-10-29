@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/version: latest
     helm.sh/chart: gateway-helm-v0.0.0-latest
   name: eg-gateway-helm-metrics-reader
-  namespace: envoy-gateway-system
 rules:
 - nonResourceURLs:
   - /metrics
