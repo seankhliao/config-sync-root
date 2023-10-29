@@ -74,5 +74,5 @@ kind: ConfigMap
 metadata:
   labels:
     app.kubernetes.io/name: otelcol
-  name: otelcol-c26ght992m
+  name: otelcol
   namespace: otelcol
