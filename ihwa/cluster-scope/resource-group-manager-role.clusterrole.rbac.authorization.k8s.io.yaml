@@ -1,9 +1,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  labels:
-    configmanagement.gke.io/arch: csmr
-    configmanagement.gke.io/system: "true"
   name: resource-group-manager-role
 rules:
 - apiGroups:

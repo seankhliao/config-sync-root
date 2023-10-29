@@ -1,9 +1,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  labels:
-    configmanagement.gke.io/arch: csmr
-    configmanagement.gke.io/system: "true"
   name: configsync.gke.io:reconciler-manager
 roleRef:
   apiGroup: rbac.authorization.k8s.io

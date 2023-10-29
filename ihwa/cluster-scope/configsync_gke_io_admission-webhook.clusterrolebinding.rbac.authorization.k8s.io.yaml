@@ -1,10 +1,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  labels:
-    app: admission-webhook
-    configmanagement.gke.io/arch: csmr
-    configmanagement.gke.io/system: "true"
   name: configsync.gke.io:admission-webhook
 roleRef:
   apiGroup: rbac.authorization.k8s.io
