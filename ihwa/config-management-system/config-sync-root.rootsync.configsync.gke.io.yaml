@@ -1,0 +1,15 @@
+apiVersion: configsync.gke.io/v1beta1
+kind: RootSync
+metadata:
+  name: config-sync-root
+  namespace: config-management-system
+spec:
+  sourceType: git
+  sourceFormat: unstructured
+  git:
+    repo: git+ssh://config-sync-ihwa@softserve.softserve.svc.cluster.local/config-sync-root.git
+    branch: main
+    dir: ihwa
+    auth: ssh
+    secretRef:
+      name: git-creds

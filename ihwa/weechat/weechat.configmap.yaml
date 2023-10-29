@@ -1191,5 +1191,5 @@ data:
     @item(buflist3):button2* = "hsignal:buflist_mouse"
 kind: ConfigMap
 metadata:
-  name: weechat-gf5987h92t
+  name: weechat
   namespace: weechat
