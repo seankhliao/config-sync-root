@@ -24,9 +24,15 @@ spec:
         image: ghcr.io/charmbracelet/soft-serve:v0.6.2
         name: softserve
         ports:
+        - containerPort: 9418
+          name: git
         - containerPort: 23231
           hostPort: 23231
-          name: git
+          name: git-ssh
+        - containerPort: 23232
+          name: git-http
+        - containerPort: 23233
+          name: stats
         volumeMounts:
         - mountPath: /soft-serve
           name: data
