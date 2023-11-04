@@ -20,5 +20,5 @@ spec:
     protocol: HTTPS
     tls:
       certificateRefs:
-      - name: wildcard-google
+      - name: wildcard-letsencrypt
       mode: Terminate
