@@ -13,5 +13,5 @@ spec:
         cloudDNS:
           project: com-seankhliao
           serviceAccountSecretRef:
-            name: letsencrypt-ihwa-cert-manager
+            name: gcp-ihwa-cert-manager
             key: key.json
