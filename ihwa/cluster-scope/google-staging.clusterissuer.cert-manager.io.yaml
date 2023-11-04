@@ -9,10 +9,10 @@ spec:
     privateKeySecretRef:
       name: google-staging-account
     externalAccountBinding:
-      keyID: 30482f5e11f86f8c46b98d25e0dadf83
+      keyID: 3fd8d9d84ddbe7c7862aa98677c4c4e6
       keySecretRef:
-        name: gcp-publicca
-        key: hmac
+        name: gcp-publicca-staging
+        key: b64MacKey
     solvers:
     - dns01:
         cloudDNS:
