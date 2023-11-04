@@ -1,0 +1,23 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: letsencrypt-staging
+  namespace: envoy-gateway-system
+spec:
+  secretName: letsencrypt-staging-tls
+  duration: 720h # 30d
+  renewBefore: 360h # 15d
+  revisionHistoryLimit: 1
+  subject:
+    organizations:
+    - seankhliao
+  privateKey:
+    rotationPolicy: Always
+    algorithm: ECDSA
+    size: 256
+  dnsNames:
+  - '*.liao.dev'
+  - '*.ihwa.liao.dev'
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
