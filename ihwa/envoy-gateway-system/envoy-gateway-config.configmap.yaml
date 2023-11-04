@@ -1,7 +1,18 @@
+# Source: gateway-helm/templates/envoy-gateway-config.yaml
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: envoy-gateway-config
+  namespace: 'envoy-gateway-system'
+  labels:
+    helm.sh/chart: gateway-helm-v0.0.0-latest
+    app.kubernetes.io/name: gateway-helm
+    app.kubernetes.io/instance: eg
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
 data:
   envoy-gateway.yaml: |
-    apiVersion: config.gateway.envoyproxy.io/v1alpha1
+    apiVersion: gateway.envoyproxy.io/v1alpha1
     kind: EnvoyGateway
     gateway:
       controllerName: gateway.envoyproxy.io/gatewayclass-controller
@@ -10,13 +21,3 @@ data:
         default: info
     provider:
       type: Kubernetes
-kind: ConfigMap
-metadata:
-  labels:
-    app.kubernetes.io/instance: eg
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: envoy-gateway
-    app.kubernetes.io/version: latest
-    helm.sh/chart: gateway-helm-v0.0.0-latest
-  name: envoy-gateway-config
-  namespace: envoy-gateway-system

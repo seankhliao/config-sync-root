@@ -1,22 +1,23 @@
+# Source: gateway-helm/templates/envoy-gateway-metrics-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
+  name: envoy-gateway-metrics-service
+  namespace: 'envoy-gateway-system'
   labels:
-    app.kubernetes.io/instance: eg
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: envoy-gateway
-    app.kubernetes.io/version: latest
     control-plane: envoy-gateway
     helm.sh/chart: gateway-helm-v0.0.0-latest
-  name: envoy-gateway-metrics-service
-  namespace: envoy-gateway-system
-spec:
-  ports:
-  - name: https
-    port: 8443
-    protocol: TCP
-    targetPort: https
-  selector:
+    app.kubernetes.io/name: gateway-helm
     app.kubernetes.io/instance: eg
-    app.kubernetes.io/name: envoy-gateway
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
     control-plane: envoy-gateway
+    app.kubernetes.io/name: gateway-helm
+    app.kubernetes.io/instance: eg
+  ports:
+  - name: http
+    port: 19001
+    protocol: TCP
+    targetPort: 19001

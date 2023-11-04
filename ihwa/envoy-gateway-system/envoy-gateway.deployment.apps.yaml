@@ -1,28 +1,29 @@
+# Source: gateway-helm/templates/envoy-gateway-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: envoy-gateway
+  namespace: 'envoy-gateway-system'
   labels:
-    app.kubernetes.io/instance: eg
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: envoy-gateway
-    app.kubernetes.io/version: latest
     control-plane: envoy-gateway
     helm.sh/chart: gateway-helm-v0.0.0-latest
-  name: envoy-gateway
-  namespace: envoy-gateway-system
+    app.kubernetes.io/name: gateway-helm
+    app.kubernetes.io/instance: eg
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/instance: eg
-      app.kubernetes.io/name: envoy-gateway
       control-plane: envoy-gateway
+      app.kubernetes.io/name: gateway-helm
+      app.kubernetes.io/instance: eg
   template:
     metadata:
       labels:
-        app.kubernetes.io/instance: eg
-        app.kubernetes.io/name: envoy-gateway
         control-plane: envoy-gateway
+        app.kubernetes.io/name: gateway-helm
+        app.kubernetes.io/instance: eg
     spec:
       containers:
       - args:
@@ -36,7 +37,7 @@ spec:
               fieldPath: metadata.namespace
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: cluster.local
-        image: envoyproxy/gateway:v0.5.0
+        image: envoyproxy/gateway:v0.6.0
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -67,27 +68,6 @@ spec:
         - mountPath: /certs
           name: certs
           readOnly: true
-      - args:
-        - --secure-listen-address=0.0.0.0:8443
-        - --upstream=http://127.0.0.1:8080/
-        - --logtostderr=true
-        - --v=0
-        env:
-        - name: KUBERNETES_CLUSTER_DOMAIN
-          value: cluster.local
-        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.11.0
-        name: kube-rbac-proxy
-        ports:
-        - containerPort: 8443
-          name: https
-          protocol: TCP
-        resources:
-          limits:
-            cpu: 500m
-            memory: 128Mi
-          requests:
-            cpu: 5m
-            memory: 64Mi
       securityContext:
         runAsNonRoot: true
       serviceAccountName: envoy-gateway

@@ -1,21 +1,22 @@
+# Source: gateway-helm/templates/certgen-rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  annotations:
-    helm.sh/hook: pre-install
-  labels:
-    app.kubernetes.io/instance: eg
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: envoy-gateway
-    app.kubernetes.io/version: latest
-    helm.sh/chart: gateway-helm-v0.0.0-latest
   name: eg-gateway-helm-certgen
-  namespace: envoy-gateway-system
+  namespace: 'envoy-gateway-system'
+  labels:
+    helm.sh/chart: gateway-helm-v0.0.0-latest
+    app.kubernetes.io/name: gateway-helm
+    app.kubernetes.io/instance: eg
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": pre-install
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: eg-gateway-helm-certgen
+  name: 'eg-gateway-helm-certgen'
 subjects:
 - kind: ServiceAccount
-  name: eg-gateway-helm-certgen
-  namespace: envoy-gateway-system
+  name: 'eg-gateway-helm-certgen'
+  namespace: 'envoy-gateway-system'

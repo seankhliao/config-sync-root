@@ -1,6 +1,5 @@
+# Source: gateway-helm/templates/namespace.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
-  labels:
-    app.kubernetes.io/name: envoy-gateway
-  name: envoy-gateway-system
+  name: 'envoy-gateway-system'
