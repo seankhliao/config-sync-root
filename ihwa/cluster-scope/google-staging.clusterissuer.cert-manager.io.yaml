@@ -6,6 +6,8 @@ spec:
   acme:
     email: acme+google@liao.dev
     server: https://dv.acme-v02.test-api.pki.goog/directory
+    privateKeySecretRef:
+      name: google-staging-account
     externalAccountBinding:
       keyID: 30482f5e11f86f8c46b98d25e0dadf83
       keySecretRef:
