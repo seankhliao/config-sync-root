@@ -18,5 +18,5 @@ spec:
         cloudDNS:
           project: com-seankhliao
           serviceAccountSecretRef:
-            name: gcp-ihwa-cert-manager
+            name: gcp-cert-manager-sa
             key: key.json
