@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: google-production
+spec:
+  acme:
+    email: acme+google@liao.dev
+    server: https://dv.acme-v02.api.pki.goog/directory
+    privateKeySecretRef:
+      name: google-production-account
+    externalAccountBinding:
+      keyID: 3fd8d9d84ddbe7c7862aa98677c4c4e6
+      keySecretRef:
+        name: gcp-publicca-production
+        key: b64MacKey
+    solvers:
+    - dns01:
+        cloudDNS:
+          project: com-seankhliao
+          serviceAccountSecretRef:
+            name: gcp-cert-manager-sa
+            key: key.json
