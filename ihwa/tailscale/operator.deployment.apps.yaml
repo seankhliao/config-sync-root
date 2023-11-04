@@ -41,7 +41,7 @@ spec:
           value: tag:k8s
         - name: AUTH_PROXY
           value: "false"
-        image: tailscale/k8s-operator:unstable
+        image: tailscale/k8s-operator:unstable-v1.53.37
         name: operator
         resources:
           requests:
