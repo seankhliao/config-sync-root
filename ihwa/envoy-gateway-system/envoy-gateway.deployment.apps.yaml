@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: envoy-gateway-tmp
+  name: envoy-gateway
   namespace: 'envoy-gateway-system'
   labels:
     control-plane: envoy-gateway
