@@ -12,13 +12,12 @@ data:
       trust_domain = "liao.dev"
       data_dir = "/run/spire/data"
       log_level = "DEBUG"
-      #AWS requires the use of RSA.  EC cryptography is not supported
       ca_key_type = "ec-p256"
 
       ca_subject = {
         country = ["UK"],
         organization = ["seankhliao"],
-        common_name = "seankhliao",
+        common_name = "liao.dev",
       }
     }
 
