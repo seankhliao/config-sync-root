@@ -33,10 +33,10 @@ data:
         }
       }
 
-      WorkloadAttestor "unix" {
-          plugin_data {
-          }
-      }
+      # WorkloadAttestor "unix" {
+      #     plugin_data {
+      #     }
+      # }
     }
 
     health_checks {
