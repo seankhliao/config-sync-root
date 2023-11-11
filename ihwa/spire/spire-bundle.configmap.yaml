@@ -3,3 +3,5 @@ kind: ConfigMap
 metadata:
   name: spire-bundle
   namespace: spire
+  annotations:
+    configmanagement.gke.io/managed: disabled
