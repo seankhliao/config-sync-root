@@ -17,10 +17,9 @@ spec:
     spec:
       containers:
       - args:
-        - -cacheDir=/data
-        - -listen=:8080
-        - -proxy=https://proxy.golang.org
-        image: docker.io/goproxy/goproxy
+        - -cacher-dir=/data
+        - -address=:8080
+        image: ghcr.io/goproxy/goproxy:0.15
         name: goproxy
         ports:
         - containerPort: 8080
