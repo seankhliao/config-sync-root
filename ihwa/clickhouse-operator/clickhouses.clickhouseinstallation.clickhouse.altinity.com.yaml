@@ -13,6 +13,11 @@ spec:
       user/password: user
       user/profile: default
       user/quota: default
+      user/grants:
+        - GRANT SHOW ON *.*
+        - GRANT SELECT ON system.*
+      user/networks/ip:
+        - 10.0.0.0/8
     clusters:
     - name: "goproxyindex"
       layout:
