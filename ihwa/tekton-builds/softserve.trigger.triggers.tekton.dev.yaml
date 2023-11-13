@@ -11,19 +11,15 @@ spec:
   - ref:
       name: cel
     params:
-    - name: overlays
-      value:
-      - expression: requestURL.parseURL()
-        key: trigger_url
     - name: filter
-      value: extensions.trigger_url.path.startsWith("/softserve")
+      value: requestURL.parseURL().path.startsWith("/softserve")
     - name: overlays
       value:
       - expression: body.after.truncate(7)
         key: truncated_sha
       - expression: '"git+ssh://tekton-ihwa@softserve.softserve.svc/REPO.git".replace("REPO", body.repository.name)'
         key: repo_url
-      - expression: extensions.trigger_url.path.split("/")[2]
+      - expression: requestURL.parseURL().path.split("/")[2]
         key: pipeline
   bindings:
   - name: repo_name
