@@ -21,7 +21,7 @@ spec:
       - envFrom:
         - secretRef:
             name: softserve
-        image: ghcr.io/charmbracelet/soft-serve:v0.6.2
+        image: ghcr.io/charmbracelet/soft-serve:v0.7.1
         name: softserve
         ports:
         - containerPort: 9418
