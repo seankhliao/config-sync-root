@@ -9,7 +9,7 @@ metadata:
   namespace: config-management-system
 spec:
   minReadySeconds: 10
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: admission-webhook

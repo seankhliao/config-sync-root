@@ -25,6 +25,8 @@ spec:
       - args:
         - --enable-leader-election
         - -v=1
+        - -enable-pprof
+        - -pprof-port=6060
         command:
         - /reconciler-manager
         envFrom:
