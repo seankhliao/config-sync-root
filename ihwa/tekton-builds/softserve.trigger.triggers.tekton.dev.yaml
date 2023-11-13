@@ -1,0 +1,71 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  labels:
+    app.kubernetes.io/name: tekton-builds
+    event-listener: listener
+  name: softserve
+  namespace: tekton-builds
+spec:
+  interceptors:
+  - ref:
+      name: cel
+    params:
+    - name: overlays
+      value:
+      - expression: requestURL.parseURL()
+        key: trigger_url
+    - name: filter
+      value: extensions.trigger_url.path.startsWith("/softserve")
+    - name: overlays
+      value:
+      - expression: body.after.truncate(7)
+        key: truncated_sha
+      - expression: '"git+ssh://tekton-ihwa@softserve.softserve.svc/REPO.git".replace("REPO", body.repository.name)'
+        key: repo_url
+      - expression: extensions.trigger_url.path.split("/")[2]
+        key: pipeline
+  bindings:
+  - name: repo_name
+    value: $(body.repository.name)
+  - name: revision
+    value: $(body.after)
+  - name: truncated_sha
+    value: $(extensions.truncated_sha)
+  - name: repo_url
+    value: $(extensions.repo_url)
+  - name: pipeline
+    value: $(extensions.pipeline)
+  template:
+    spec:
+      params:
+      - name: repo_name
+      - name: revision
+      - name: truncated_sha
+      - name: repo_url
+      - name: pipeline
+      resourcetemplates:
+      - apiVersion: tekton.dev/v1
+        kind: PipelineRun
+        metadata:
+          generateName: $(tt.params.repo_name)-$(tt.params.truncated_sha)-
+        spec:
+          params:
+          - name: revision
+            value: $(tt.params.revision)
+          - name: url
+            value: $(tt.params.repo_url)
+          pipelineRef:
+            name: $(tt.params.pipeline)
+          taskRunSpecs:
+          - pipelineTaskName: fetch-source
+            serviceAccountName: softserve-clone
+          workspaces:
+          - name: cloned-repo
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Gi
