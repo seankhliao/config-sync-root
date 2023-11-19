@@ -19,7 +19,7 @@ spec:
           containers:
           - args:
             - -d
-            - '{"tektonPipeline":"kaniko","repo":"go","commit":"main","image":"ghcr.io/seankhliao/go:tup-arm64"}'
+            - '{"tektonPipeline":"kaniko","repo":"go","commit":"main","image":"ghcr.io/seankhliao/go:tip-arm64"}'
             - http://el-listener.tekton-builds.svc.cluster.local
             image: curlimages/curl
             name: curl
