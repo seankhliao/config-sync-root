@@ -33,9 +33,9 @@ spec:
     - name: repo_url
       value: $(extensions.repo_url)
     - name: image_name
-      value: $(expressions.image_name)
+      value: $(extensions.image_name)
     - name: dir
-      value: $(expressions.dir)
+      value: $(extensions.dir)
   template:
     spec:
       params:
