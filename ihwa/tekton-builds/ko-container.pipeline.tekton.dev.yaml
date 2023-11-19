@@ -21,6 +21,11 @@ spec:
       revision to checkout
     name: revision
     type: string
+  - name: image_name
+    type: string
+  - name: dir
+    type: string
+    default: .
   tasks:
   - name: fetch-source
     params:
@@ -35,8 +40,10 @@ spec:
       workspace: cloned-repo
   - name: ko-container
     params:
-    - name: reponame
-      value: $(params.reponame)
+    - name: image_name
+      value: $(params.image_name)
+    - name: dir
+      value: $(params.dir)
     runAfter:
     - fetch-source
     taskRef:

@@ -7,63 +7,75 @@ metadata:
   name: softserve-ko-container
   namespace: tekton-builds
 spec:
-  bindings:
-  - name: reponame
-    value: $(body.repo)
-  - name: repourl
-    value: $(extensions.repourl)
-  - name: revision
-    value: $(body.commit)
-  - name: shortrev
-    value: $(extensions.shortrev)
-  - name: pipeline
-    value: $(body.tektonPipeline)
   interceptors:
-  - params:
-    - name: filter
-      value: body.tektonPipeline == "ko-container"
-    - name: overlays
-      value:
-      - expression: '"git+ssh://tekton-ihwa@softserve.softserve.svc/REPO.git".replace("REPO", body.repo)'
-        key: repourl
-      - expression: body.commit.truncate(7)
-        key: shortrev
-    ref:
-      name: cel
+    - ref:
+        name: cel
+      params:
+        - name: filter
+          value: requestURL.parseURL().path.startsWith("/softserve")
+        - name: filter
+          value: requestURL.parseURL().path.split("/")[2] == "ko-container"
+        - name: overlays
+          value:
+            - expression: body.after.truncate(7)
+              key: truncated_sha
+            - expression: '"git+ssh://tekton-ihwa@softserve.softserve.svc/REPO.git".replace("REPO", body.repository.name)'
+              key: repo_url
+            - expression: requestURL.parseURL().query["image_name"]
+              key: image_name
+            - expression: requestURL.parseURL().query["dir"]
+              key: dir
+  bindings:
+    - name: repo_name
+      value: $(body.repository.name)
+    - name: revision
+      value: $(body.after)
+    - name: truncated_sha
+      value: $(extensions.truncated_sha)
+    - name: repo_url
+      value: $(extensions.repo_url)
+    - name: image_name
+      value: $(expressions.image_name)
+    - name: dir
+      value: $(expressions.dir)
   template:
     spec:
       params:
-      - name: reponame
-      - name: revision
-      - name: repourl
-      - name: shortrev
-      - name: pipeline
+        - name: repo_name
+        - name: revision
+        - name: truncated_sha
+        - name: repo_url
+        - name: pipeline
+        - name: image_name
+        - name: dir
       resourcetemplates:
-      - apiVersion: tekton.dev/v1
-        kind: PipelineRun
-        metadata:
-          generateName: $(tt.params.reponame)-$(tt.params.shortrev)-
-        spec:
-          params:
-          - name: revision
-            value: $(tt.params.revision)
-          - name: url
-            value: $(tt.params.repourl)
-          - name: reponame
-            value: $(tt.params.reponame)
-          pipelineRef:
-            name: $(tt.params.pipeline)
-          taskRunSpecs:
-          - pipelineTaskName: fetch-source
-            serviceAccountName: softserve-clone
-          - pipelineTaskName: ko-container
-            serviceAccountName: ghcr-publish
-          workspaces:
-          - name: cloned-repo
-            volumeClaimTemplate:
-              spec:
-                accessModes:
-                - ReadWriteOnce
-                resources:
-                  requests:
-                    storage: 1Gi
+        - apiVersion: tekton.dev/v1
+          kind: PipelineRun
+          metadata:
+            generateName: $(tt.params.repo_name)-$(tt.params.truncated_sha)-ko-
+          spec:
+            params:
+              - name: revision
+                value: $(tt.params.revision)
+              - name: url
+                value: $(tt.params.repo_url)
+              - name: image_name
+                value: $(tt.params.image_name)
+              - name: dir
+                value: $(tt.params.dir)
+            pipelineRef:
+              name: ko-container
+            taskRunSpecs:
+              - pipelineTaskName: fetch-source
+                serviceAccountName: softserve-clone
+              - pipelineTaskName: ko-container
+                serviceAccountName: ghcr-publish
+            workspaces:
+              - name: cloned-repo
+                volumeClaimTemplate:
+                  spec:
+                    accessModes:
+                      - ReadWriteOnce
+                    resources:
+                      requests:
+                        storage: 1Gi

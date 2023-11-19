@@ -10,8 +10,11 @@ spec:
     build and test a go module with ko
   displayName: ko build
   params:
-  - name: reponame
+  - name: image_name
     type: string
+  - name: dir 
+    type: string
+    default: "."
   stepTemplate:
     env:
     - name: GOFLAGS
@@ -46,10 +49,10 @@ spec:
       go test -vet=all ./...
   - env:
     - name: KO_DOCKER_REPO
-      value: ghcr.io/seankhliao/$(params.reponame)
+      value: $(params.image_name)
     name: ko-build
     script: |
-      ko build --platform linux/amd64,linux/arm64 --bare --image-refs .images.txt
+      ko build --platform linux/amd64,linux/arm64 --bare --image-refs .images.txt $(params.dir)
   volumes:
   - emptyDir: {}
     name: gomodcache
