@@ -13,6 +13,8 @@ spec:
     params:
     - name: filter
       value: requestURL.parseURL().path.startsWith("/softserve")
+    - name: filter
+      value: '!requestURL.parseURL().path.startsWith("/softserve/ko-container")'
     - name: overlays
       value:
       - expression: body.after.truncate(7)

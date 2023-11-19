@@ -12,9 +12,7 @@ spec:
         name: cel
       params:
         - name: filter
-          value: requestURL.parseURL().path.startsWith("/softserve")
-        - name: filter
-          value: requestURL.parseURL().path.split("/")[2] == "ko-container"
+          value: requestURL.parseURL().path.startsWith("/softserve/ko-container")
         - name: overlays
           value:
             - expression: body.after.truncate(7)
