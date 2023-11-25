@@ -28,6 +28,7 @@ spec:
     - name: GOPROXY
       value: http://goproxy.goproxy.svc.cluster.local,https://proxy.golang.org,direct
     image: ghcr.io/seankhliao/go:tip-arm64
+    imagePullPolicy: Always
     volumeMounts:
     - mountPath: /volumes/gomodcache
       name: gomodcache
