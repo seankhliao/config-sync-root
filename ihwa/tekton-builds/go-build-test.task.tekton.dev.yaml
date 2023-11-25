@@ -41,10 +41,5 @@ spec:
   - name: test
     script: |
       go test -vet=all ./...
-  volumes:
-  - emptyDir: {}
-    name: gomodcache
-  - emptyDir: {}
-    name: gobuildcache
   workspaces:
   - name: module

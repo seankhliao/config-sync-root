@@ -53,10 +53,5 @@ spec:
     name: ko-build
     script: |
       ko build --platform linux/amd64,linux/arm64 --bare --image-refs .images.txt $(params.dir)
-  volumes:
-  - emptyDir: {}
-    name: gomodcache
-  - emptyDir: {}
-    name: gobuildcache
   workspaces:
   - name: module
