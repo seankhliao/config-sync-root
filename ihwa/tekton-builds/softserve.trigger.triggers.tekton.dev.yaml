@@ -58,6 +58,15 @@ spec:
           taskRunSpecs:
           - pipelineTaskName: fetch-source
             serviceAccountName: softserve-clone
+          - pipelineTaskName: build-test
+            podTemplate:
+              volumes:
+              - name: gobuildcache
+                hostPath:
+                  path: /opt/volumes/gobuildcache
+              - name: gomodcache
+                hostPath:
+                  path: /opt/volumes/gomodcache
           workspaces:
           - name: cloned-repo
             volumeClaimTemplate:
