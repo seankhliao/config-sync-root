@@ -32,10 +32,6 @@ spec:
           value: k8s.container.name="manager"
         image: ghcr.io/seankhliao/kpt-config-sync-resource-group-controller
         name: manager
-        resources:
-          requests:
-            cpu: 100m
-            memory: 200Mi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true

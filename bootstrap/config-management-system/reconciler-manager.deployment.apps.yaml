@@ -35,10 +35,6 @@ spec:
             optional: true
         image: ghcr.io/seankhliao/kpt-config-sync-reconciler-manager
         name: reconciler-manager
-        resources:
-          requests:
-            cpu: 10m
-            memory: 50Mi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
