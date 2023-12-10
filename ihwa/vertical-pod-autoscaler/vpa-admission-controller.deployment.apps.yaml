@@ -34,13 +34,6 @@ spec:
         - name: tls-certs
           mountPath: "/etc/tls-certs"
           readOnly: true
-        resources:
-          limits:
-            cpu: 200m
-            memory: 500Mi
-          requests:
-            cpu: 50m
-            memory: 200Mi
         ports:
         - containerPort: 8000
         - name: prometheus

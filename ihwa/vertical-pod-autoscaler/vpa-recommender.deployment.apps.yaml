@@ -20,13 +20,6 @@ spec:
       - name: recommender
         image: registry.k8s.io/autoscaling/vpa-recommender:1.0.0
         imagePullPolicy: Always
-        resources:
-          limits:
-            cpu: 200m
-            memory: 1000Mi
-          requests:
-            cpu: 50m
-            memory: 500Mi
         ports:
         - name: prometheus
           containerPort: 8942

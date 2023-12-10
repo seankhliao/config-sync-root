@@ -43,10 +43,6 @@ spec:
           value: "false"
         image: tailscale/k8s-operator:unstable-v1.53.37
         name: operator
-        resources:
-          requests:
-            cpu: 500m
-            memory: 100Mi
         volumeMounts:
         - mountPath: /oauth
           name: oauth
