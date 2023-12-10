@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vpa-cert-by-certmanager
+  namespace: vertical-pod-autoscaler
+spec:
+  secretName: vpa-tls-certs
+  dnsNames:
+  - vpa-webhook.vertical-pod-autoscaler.svc
+  issuerRef:
+    name: self-signer
