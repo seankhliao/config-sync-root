@@ -32,11 +32,6 @@ data:
           node_name_env = "NODE_NAME"
         }
       }
-
-      WorkloadAttestor "unix" {
-          plugin_data {
-          }
-      }
     }
 
     health_checks {
