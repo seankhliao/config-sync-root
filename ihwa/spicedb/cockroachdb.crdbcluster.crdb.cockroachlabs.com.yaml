@@ -1,0 +1,25 @@
+apiVersion: crdb.cockroachlabs.com/v1alpha1
+kind: CrdbCluster
+metadata:
+  name: cockroachdb
+  namespace: spicedb
+spec:
+  dataStore:
+    pvc:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: "2Gi"
+        volumeMode: Filesystem
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  tlsEnabled: true
+  image:
+    name: cockroachdb/cockroach:v23.1.11
+  nodes: 1
+  additionalLabels:
+    crdb: is-cool
