@@ -29,7 +29,7 @@ data:
         }
       }
 
-      NodeAttestor "k8s_sat" {
+      NodeAttestor "k8s_psat" {
         plugin_data {
           clusters = {
             "ihwa" = {
