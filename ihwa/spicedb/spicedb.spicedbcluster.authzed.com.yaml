@@ -1,0 +1,10 @@
+apiVersion: authzed.com/v1alpha1
+kind: SpiceDBCluster
+metadata:
+  name: spicedb
+  namespace: spicedb
+spec:
+  config:
+    datastoreEngine: cockroachdb
+    replicas: 2
+  secretName: spicedb-creds
