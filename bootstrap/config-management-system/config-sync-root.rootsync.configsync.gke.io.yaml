@@ -11,5 +11,6 @@ spec:
     branch: main
     dir: ihwa
     auth: ssh
+    period: 30s
     secretRef:
       name: git-creds
