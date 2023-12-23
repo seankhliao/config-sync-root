@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cockroachadmin
+  labels:
+    app.kubernetes.io/name: cockroachadmin
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cockroachadmin
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: cockroachadmin
+    spec:
+      serviceAccountName: cockroachdb-sa
+      containers:
+      - name: cockroachdb-client-secure
+        image: cockroachdb/cockroach:v23.1.11
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: client-certs
+          mountPath: /cockroach/cockroach-certs/
+        command:
+        - sleep
+        - "2147483648" # 2^31
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - name: client-certs
+        projected:
+            sources:
+              - secret:
+                  name: cockroachdb-node
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+              - secret:
+                  name: cockroachdb-root
+                  items:
+                    - key: tls.crt
+                      path: client.root.crt
+                    - key: tls.key
+                      path: client.root.key
+            defaultMode: 256
