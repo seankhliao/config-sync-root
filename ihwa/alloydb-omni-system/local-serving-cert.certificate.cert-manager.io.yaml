@@ -1,0 +1,14 @@
+# Source: alloydbomni-operator/templates/local-webhooks.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: local-serving-cert
+  namespace: alloydb-omni-system
+spec:
+  dnsNames:
+  - local-webhook-service.alloydb-omni-system.svc
+  - local-webhook-service.alloydb-omni-system.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: local-selfsigned-issuer
+  secretName: local-webhook-server-cert

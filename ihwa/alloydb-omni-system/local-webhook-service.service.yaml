@@ -1,0 +1,12 @@
+# Source: alloydbomni-operator/templates/local-webhooks.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: local-webhook-service
+  namespace: alloydb-omni-system
+spec:
+  ports:
+  - port: 443
+    targetPort: 9443
+  selector:
+    local-control-plane: controller-manager

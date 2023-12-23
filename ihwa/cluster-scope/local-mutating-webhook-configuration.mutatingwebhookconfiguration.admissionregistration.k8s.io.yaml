@@ -1,0 +1,29 @@
+# Source: alloydbomni-operator/templates/local-webhooks.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: alloydb-omni-system/local-serving-cert
+  name: local-mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: local-webhook-service
+      namespace: alloydb-omni-system
+      path: /mutate-alloydbomni-internal-dbadmin-goog-v1-instance
+  failurePolicy: Fail
+  name: vinstance.alloydbomni.internal.dbadmin.goog
+  rules:
+  - apiGroups:
+    - alloydbomni.internal.dbadmin.goog
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - instances
+  sideEffects: None

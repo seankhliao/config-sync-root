@@ -1,0 +1,8 @@
+# Source: alloydbomni-operator/templates/local-webhooks.yaml
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: local-selfsigned-issuer
+  namespace: alloydb-omni-system
+spec:
+  selfSigned: {}
