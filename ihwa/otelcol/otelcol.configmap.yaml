@@ -36,8 +36,6 @@ data:
           "x-honeycomb-team": "${X_HONEYCOMB_TEAM}"
 
       googlecloud:
-        retry_on_failure:
-          enabled: false
 
     extensions:
       health_check:
