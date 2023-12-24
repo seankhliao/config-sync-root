@@ -67,6 +67,6 @@ spec:
         projected:
           sources:
           - serviceAccountToken:
-              audience: https://iam.googleapis.com/projects/330311169810/locations/global/workloadIdentityPools/kubernetes/providers/ihwa
+              audience: https://iam.googleapis.com/projects/330311169810/locations/global/workloadIdentityPools/kubernetes/providers/ihwa-k3s
               expirationSeconds: 3600
               path: token

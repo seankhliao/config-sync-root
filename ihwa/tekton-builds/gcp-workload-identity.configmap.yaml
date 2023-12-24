@@ -7,7 +7,7 @@ data:
   gcp-workload-identity.json: |
     {
       "type": "external_account",
-      "audience": "//iam.googleapis.com/projects/330311169810/locations/global/workloadIdentityPools/kubernetes/providers/ihwa",
+      "audience": "//iam.googleapis.com/projects/330311169810/locations/global/workloadIdentityPools/kubernetes/providers/ihwa-k3s",
       "subject_token_type": "urn:ietf:params:oauth:token-type:jwt",
       "token_url": "https://sts.googleapis.com/v1/token",
       "credential_source": {
