@@ -36,6 +36,8 @@ data:
           "x-honeycomb-team": "${X_HONEYCOMB_TEAM}"
 
       googlecloud:
+        impersonate:
+          target_principal: ihwa-otelcol@com-seankhliao.iam.gserviceaccount.com
 
     extensions:
       health_check:
