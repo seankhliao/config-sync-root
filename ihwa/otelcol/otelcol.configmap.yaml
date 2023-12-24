@@ -25,9 +25,6 @@ data:
           thrift_http:
 
     exporters:
-      logging:
-        # verbosity: detailed
-
       otlp/lightstep:
         endpoint: ingest.lightstep.com:443
         headers:
@@ -58,7 +55,6 @@ data:
           receivers:
             - otlp
           exporters:
-            # - logging
             - otlp/lightstep
 
         traces:
@@ -66,7 +62,6 @@ data:
             - otlp
             - jaeger
           exporters:
-            # - logging
             - otlp/lightstep
             - otlp/honeycomb
             - googlecloud
