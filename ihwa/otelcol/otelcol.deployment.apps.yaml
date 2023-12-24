@@ -57,7 +57,7 @@ spec:
         - name: token
           mountPath: "/var/run/service-account"
           readOnly: true
-          enableServiceLinks: false
+      enableServiceLinks: false
       serviceAccountName: otelcol
       volumes:
       - configMap:
