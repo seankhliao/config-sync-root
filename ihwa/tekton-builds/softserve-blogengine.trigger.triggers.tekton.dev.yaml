@@ -52,6 +52,8 @@ spec:
             taskRunSpecs:
               - pipelineTaskName: fetch-source
                 serviceAccountName: softserve-clone
+              - pipelineTaskName: publish
+                serviceAccountName: blogengine-publish
             workspaces:
               - name: cloned-repo
                 volumeClaimTemplate:

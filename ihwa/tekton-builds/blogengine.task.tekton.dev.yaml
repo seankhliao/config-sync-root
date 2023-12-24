@@ -12,17 +12,26 @@ spec:
   stepTemplate:
     env:
     - name: GOOGLE_APPLICATION_CREDENTIALS
-      value: /var/run/secrets/google/sa.json
+      value: /var/run/service-account/gcp-workload-identity.json
+    # - name: GOOGLE_PROJECT
+    #   value: com-seankhliao
     volumeMounts:
-    - mountPath: /var/run/secrets/google
-      name: gcpsa
+    - name: token
+      mountPath: "/var/run/service-account"
+      readOnly: true
     workingDir: $(workspaces.module.path)
   steps:
   - image: ghcr.io/seankhliao/blogengine:latest
     name: blogengine
   volumes:
-  - name: gcpsa
-    secret:
-      secretName: gcp-firebase
+  - name: token
+    projected:
+      sources:
+      - serviceAccountToken:
+          audience: https://iam.googleapis.com/projects/330311169810/locations/global/workloadIdentityPools/kubernetes/providers/ihwa
+          expirationSeconds: 3600
+          path: token
+      - configMap:
+          name: gcp-workload-identity
   workspaces:
   - name: module
