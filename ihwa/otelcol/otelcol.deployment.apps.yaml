@@ -24,7 +24,7 @@ spec:
         - --feature-gates=telemetry.useOtelForInternalMetrics,telemetry.useOtelWithSDKConfigurationForInternalTelemetry
         env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
-          value: /var/run/secrets/gcp/serviceaccount.json
+          value: /etc/otelcol/gcp-workload-identity.json
         envFrom:
         - secretRef:
             name: otelcol
@@ -54,13 +54,19 @@ spec:
         volumeMounts:
         - mountPath: /etc/otelcol
           name: config
-        - mountPath: /var/run/secrets/gcp
-          name: gcp
-      enableServiceLinks: false
+        - name: token
+          mountPath: "/var/run/service-account"
+          readOnly: true
+          enableServiceLinks: false
+      serviceAccountName: otelcol
       volumes:
       - configMap:
           name: otelcol
         name: config
-      - name: gcp
-        secret:
-          secretName: gcp
+      - name: token
+        projected:
+          sources:
+          - serviceAccountToken:
+              audience: https://iam.googleapis.com/projects/330311169810/locations/global/workloadIdentityPools/kubernetes/providers/ihwa
+              expirationSeconds: 3600
+              path: token
