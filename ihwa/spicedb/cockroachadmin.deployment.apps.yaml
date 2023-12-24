@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cockroachadmin
+  namespace: spicedb
   labels:
     app.kubernetes.io/name: cockroachadmin
 spec:
