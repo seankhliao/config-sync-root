@@ -28,7 +28,7 @@ spec:
         envFrom:
         - secretRef:
             name: otelcol
-        image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.83.0
+        image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.91.0
         livenessProbe:
           httpGet:
             path: /
