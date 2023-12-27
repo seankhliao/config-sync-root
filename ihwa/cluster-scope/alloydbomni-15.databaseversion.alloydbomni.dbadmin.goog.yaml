@@ -1,0 +1,20 @@
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/crs.yaml
+apiVersion: alloydbomni.dbadmin.goog/v1
+kind: DatabaseVersion
+metadata:
+  name: alloydbomni-15
+spec:
+  databaseEngine: AlloyDBOmni
+  defaultMinorVersion: "2.1"
+  majorVersion: "15"
+  minorDatabaseVersions:
+  - components:
+    - name: database
+      uri: gcr.io/alloydb-omni/operator/alloydbomni:15.2.1
+    - name: memoryagent
+      uri: gcr.io/alloydb-omni/memory-agent:15.2.1
+    - name: ml-agent
+      uri: gcr.io/alloydb-omni/ml-agent:15.2.1
+    version: "2.1"
+    versionDisplayName: AlloyDBOmni 15.2.1
+  versionDisplayName: AlloyDBOmni 15
