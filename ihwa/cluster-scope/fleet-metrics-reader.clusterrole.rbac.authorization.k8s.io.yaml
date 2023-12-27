@@ -1,8 +1,8 @@
-# Source: alloydbomni-operator/charts/alloydbomni-operator-local/templates/crs.yaml
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/crs.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: local-metrics-reader
+  name: fleet-metrics-reader
 rules:
 - nonResourceURLs:
   - /metrics

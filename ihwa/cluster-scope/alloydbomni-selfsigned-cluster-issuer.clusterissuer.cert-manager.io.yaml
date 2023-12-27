@@ -1,0 +1,7 @@
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/crs.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: alloydbomni-selfsigned-cluster-issuer
+spec:
+  selfSigned: {}

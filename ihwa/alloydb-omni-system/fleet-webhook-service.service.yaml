@@ -1,0 +1,12 @@
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/webhooks.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleet-webhook-service
+  namespace: alloydb-omni-system
+spec:
+  ports:
+  - port: 443
+    targetPort: 9443
+  selector:
+    fleet-control-plane: controller-manager

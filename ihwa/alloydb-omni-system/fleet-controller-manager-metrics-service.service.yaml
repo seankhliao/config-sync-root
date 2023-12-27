@@ -1,10 +1,10 @@
-# Source: alloydbomni-operator/charts/alloydbomni-operator-local/templates/crs.yaml
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/crs.yaml
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     control-plane: controller-manager
-  name: local-controller-manager-metrics-service
+  name: fleet-controller-manager-metrics-service
   namespace: alloydb-omni-system
 spec:
   ports:

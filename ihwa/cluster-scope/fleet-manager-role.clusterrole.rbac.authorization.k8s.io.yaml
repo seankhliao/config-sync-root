@@ -1,0 +1,379 @@
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/crs.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: fleet-manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - backupplans
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - backupplans/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - backupplans/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - backups
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - backups/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - backups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - controlplaneagentsversions
+  verbs:
+  - get
+  - list
+  - patch
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - controlplaneagentsversions/status
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - databaseversions
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - databaseversions/status
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - dbclusters
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - dbclusters/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - dbclusters/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - failovers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - failovers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - restores
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - restores/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - restores/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - alloydbomni.dbadmin.goog
+  resources:
+  - softwarelibraries
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - failovers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - failovers/status
+  verbs:
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - instancebackupplans
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - instancebackupplans/status
+  verbs:
+  - delete
+  - get
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - instancebackups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - instancebackups/status
+  verbs:
+  - delete
+  - get
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - instancerestores
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - instancerestores/status
+  verbs:
+  - delete
+  - get
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - instances
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alloydbomni.internal.dbadmin.goog
+  resources:
+  - instances/status
+  verbs:
+  - delete
+  - get
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - baremetal.cluster.gke.io
+  resources:
+  - clusters
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - cert-manager.io
+  resources:
+  - certificates
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cert-manager.io
+  resources:
+  - issuers
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - fleet.dbadmin.gdc.goog
+  resources:
+  - controlplaneagentsversions
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - network.private.gdc.goog
+  resources:
+  - dnsregistrations
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - networkpolicies
+  verbs:
+  - create
+  - delete
+  - get

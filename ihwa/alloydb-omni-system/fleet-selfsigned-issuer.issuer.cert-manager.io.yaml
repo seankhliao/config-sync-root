@@ -1,0 +1,8 @@
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/webhooks.yaml
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: fleet-selfsigned-issuer
+  namespace: alloydb-omni-system
+spec:
+  selfSigned: {}

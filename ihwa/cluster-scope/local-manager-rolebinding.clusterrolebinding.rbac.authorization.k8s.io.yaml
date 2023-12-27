@@ -1,4 +1,4 @@
-# Source: alloydbomni-operator/templates/local-crs.yaml
+# Source: alloydbomni-operator/charts/alloydbomni-operator-local/templates/crs.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:

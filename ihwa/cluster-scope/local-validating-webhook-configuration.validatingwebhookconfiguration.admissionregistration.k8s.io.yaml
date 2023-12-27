@@ -1,4 +1,4 @@
-# Source: alloydbomni-operator/templates/local-webhooks.yaml
+# Source: alloydbomni-operator/charts/alloydbomni-operator-local/templates/webhooks.yaml
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:

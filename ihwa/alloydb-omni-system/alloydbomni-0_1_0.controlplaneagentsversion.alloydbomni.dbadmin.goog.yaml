@@ -1,0 +1,18 @@
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/crs.yaml
+apiVersion: alloydbomni.dbadmin.goog/v1
+kind: ControlPlaneAgentsVersion
+metadata:
+  annotations:
+    helm.sh/resource-policy: keep
+  name: alloydbomni-0.1.0
+  namespace: alloydb-omni-system
+spec:
+  components:
+  - name: dbinit
+    uri: gcr.io/alloydb-omni/operator/dbinit:0.1.0
+  - name: logrotate
+    uri: gcr.io/alloydb-omni/operator/logrotate:0.1.0
+  - name: monitoring
+    uri: gcr.io/alloydb-omni/operator/monitoring:0.1.0
+  databaseengine: AlloyDBOmni
+  version: latest

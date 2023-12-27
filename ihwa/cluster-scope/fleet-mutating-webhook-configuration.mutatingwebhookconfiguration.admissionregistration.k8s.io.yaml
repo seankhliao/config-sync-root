@@ -1,0 +1,50 @@
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/webhooks.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: alloydb-omni-system/fleet-serving-cert
+  name: fleet-mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: fleet-webhook-service
+      namespace: alloydb-omni-system
+      path: /mutate-alloydbomni-dbadmin-goog-v1-failover
+  failurePolicy: Fail
+  name: mfailover.alloydbomni.dbadmin.goog
+  rules:
+  - apiGroups:
+    - alloydbomni.dbadmin.goog
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - failovers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: fleet-webhook-service
+      namespace: alloydb-omni-system
+      path: /mutate-alloydbomni-dbadmin-goog-v1-dbcluster
+  failurePolicy: Fail
+  name: mdbcluster.alloydbomni.dbadmin.goog
+  rules:
+  - apiGroups:
+    - alloydbomni.dbadmin.goog
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - dbclusters
+  sideEffects: None

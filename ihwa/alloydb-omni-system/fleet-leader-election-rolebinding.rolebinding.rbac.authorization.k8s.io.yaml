@@ -1,14 +1,14 @@
-# Source: alloydbomni-operator/charts/alloydbomni-operator-local/templates/crs.yaml
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/templates/crs.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: local-leader-election-rolebinding
+  name: fleet-leader-election-rolebinding
   namespace: alloydb-omni-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: local-leader-election-role
+  name: fleet-leader-election-role
 subjects:
 - kind: ServiceAccount
-  name: local-controller-manager
+  name: fleet-controller-manager
   namespace: alloydb-omni-system

@@ -1,4 +1,4 @@
-# Source: alloydbomni-operator/charts/alloydbomni-operator-local/crds/crds.yaml
+# Source: alloydbomni-operator/charts/alloydbomni-operator-fleet/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -7,27 +7,32 @@ metadata:
   creationTimestamp: null
   labels:
     alloydb-omni: "true"
-  name: failovers.alloydbomni.internal.dbadmin.goog
+  name: backupplans.alloydbomni.dbadmin.goog
 spec:
-  group: alloydbomni.internal.dbadmin.goog
+  group: alloydbomni.dbadmin.goog
   names:
-    kind: Failover
-    listKind: FailoverList
-    plural: failovers
-    singular: failover
+    kind: BackupPlan
+    listKind: BackupPlanList
+    plural: backupplans
+    shortNames:
+    - aoobp
+    singular: backupplan
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .status.state
-      name: state
+    - jsonPath: .status.phase
+      name: Phase
       type: string
-    - jsonPath: .status.internal.phase
-      name: phase
+    - jsonPath: .status.lastBackupTime
+      name: LastBackupTime
+      type: string
+    - jsonPath: .status.nextBackupTime
+      name: NextBackupTime
       type: string
     name: v1
     schema:
       openAPIV3Schema:
-        description: Failover is the Schema for the failover API.
+        description: BackupPlan is the Schema for the backupplans API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -38,14 +43,111 @@ spec:
           metadata:
             type: object
           spec:
-            description: FailoverSpec defines the desired state of postgresql Failover.
+            description: BackupPlanSpec defines the desired state of BackupPlan.
             properties:
-              dbclusterRef:
-                description: DBClusterRef is the dbcluster name within the same namespace to initiate a failover.
+              PITREnabled:
+                default: false
+                description: A flag to indicate whether logs replication is enabled to support point-in-time recovery. Default to False.
+                type: boolean
+              backupLocation:
+                description: BackupLocation specifies the remote object storage location to store backups. For example, specs to a GCS buckets. Without specifying this, backups are stored in the backup disk by default.
+                properties:
+                  gcsOptions:
+                    description: GCSOptions is a reference to GCS dependent options.
+                    properties:
+                      bucket:
+                        description: 'Bucket is a required field, (ex: dbs-dump-bucket) A user is to ensure proper write access to the storage bucket from within the Operator.'
+                        type: string
+                      key:
+                        description: 'Object key for the dump files. (ex: ods-dump/scottschema.dmp).'
+                        type: string
+                      secretRef:
+                        description: SecretRef is a reference to the secret that stores GCS access information.
+                        properties:
+                          name:
+                            description: name is unique within a namespace to reference a secret resource.
+                            type: string
+                          namespace:
+                            description: namespace defines the space within which the secret name must be unique.
+                            type: string
+                        type: object
+                    required:
+                    - bucket
+                    - key
+                    type: object
+                  s3Options:
+                    description: 'S3Options is a reference to S3 dependent options (Ex: S3 Access Secret, End Point, Region).'
+                    properties:
+                      bucket:
+                        description: 'Bucket is a required field, (ex: dbs-dump-bucket) A user is to ensure proper write access to the storage bucket from within the Operator.'
+                        type: string
+                      caBundle:
+                        description: CABundle is a pool of PEM encoded CA certs which will be used to validate the storageGrid's server certificate.
+                        items:
+                          type: string
+                        type: array
+                      endpoint:
+                        description: Endpoint is S3 end point.
+                        type: string
+                      key:
+                        description: 'Object key for the dump files. (ex: ods-dump/scottschema.dmp).'
+                        type: string
+                      region:
+                        description: Region is S3 region the bucket resides in.
+                        type: string
+                      secretRef:
+                        description: SecretRef is a reference to the secret that stores bucket access information.
+                        properties:
+                          name:
+                            description: name is unique within a namespace to reference a secret resource.
+                            type: string
+                          namespace:
+                            description: namespace defines the space within which the secret name must be unique.
+                            type: string
+                        type: object
+                    required:
+                    - bucket
+                    - key
+                    type: object
+                  type:
+                    description: 'Type of Repository (ex: S3, GCS), which tells the agent which storage system/API to use.'
+                    enum:
+                    - GCS
+                    - S3
+                    type: string
+                required:
+                - type
+                type: object
+              backupRetainDays:
+                default: 14
+                description: Number of days after which the service will delete a Backup. If specified, a Backup created under this BackupPlan will be automatically deleted after its age reaches create_time + backup_retain_days. The valid values are from 1 to 90 days. Default to 14 retain days.
+                maximum: 90
+                minimum: 1
+                type: integer
+              cronSchedule:
+                description: 'CronSchedule is a cron string schedule on which an operation will be executed. Default to once per day: "0 0 * * *"'
                 type: string
+              dbclusterRef:
+                description: The DBCluster this backupplan configures
+                type: string
+              paused:
+                default: false
+                description: A flag to indicate if the backup creation under this BackupPlan is paused. If set to true, the service will pause the scheduling of new Backups under this BackupPlan. Default to False.
+                type: boolean
+              physicalBackupSpec:
+                description: PhysicalBackupSpec contains spec for physical backups.
+                properties:
+                  backupType:
+                    default: full
+                    description: BackupType is the type of backup to be created. Default to full
+                    enum:
+                    - full
+                    - diff
+                    type: string
+                type: object
             type: object
           status:
-            description: FailoverStatus defines the observed state of postgresql Failover.
+            description: BackupPlanStatus defines the observed state of BackupPlan.
             properties:
               conditions:
                 description: Conditions represents the latest available observations of the Entity's current state.
@@ -94,10 +196,6 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
-              createTime:
-                description: CreateTime is the time the underlying failover was created.
-                format: date-time
-                type: string
               criticalIncidents:
                 description: CriticalIncidents is a flat list of all active Critical Incidents.
                 items:
@@ -172,52 +270,34 @@ spec:
                   - resource
                   type: object
                 type: array
-              endTime:
-                description: EndTime is the time failover reached its final state.
+              lastBackupTime:
+                description: LastBackupTime is the timestamp for the most recently executed backup.
                 format: date-time
                 type: string
-              internal:
-                description: Internal is used by the DBS controllers. Users should not directly depend on the information in this section.
-                properties:
-                  newPrimary:
-                    description: NewPrimary is the instance that we are attempting to failover to.
-                    type: string
-                  oldPrimary:
-                    description: OldPrimary is the instance that was the primary at the start of the failover.
-                    type: string
-                  phase:
-                    description: Phase is used to keep track of the current state of the failover
-                    enum:
-                    - StopPrimary
-                    - PromoteStandby
-                    - ValidateNewPrimary
-                    - UpdateOldPrimaryResources
-                    - UpdateNewPrimaryResources
-                    - Cleanup
-                    - Complete
-                    type: string
-                required:
-                - newPrimary
-                - oldPrimary
-                type: object
+              nextBackupTime:
+                description: NextBackupTime is the timestamp for the next scheduled backup.
+                format: date-time
+                type: string
               observedGeneration:
                 format: int64
                 type: integer
+              phase:
+                description: BackupPlanPhase is the phase of a BackupPlan.
+                type: string
               reconciled:
                 type: boolean
-              startTime:
-                description: StartTime is the time failover started.
-                format: date-time
-                type: string
-              state:
-                description: State is the current state of the failover operation.
-                enum:
-                - InProgress
-                - Success
-                - Failed_RollbackInProgress
-                - Failed_RollbackSuccess
-                - Failed_RollbackFailed
-                type: string
+              recoveryWindow:
+                description: RecoveryWindow is the currently available recovery window.
+                properties:
+                  begin:
+                    description: Begin time.
+                    format: date-time
+                    type: string
+                  end:
+                    description: End time.
+                    format: date-time
+                    type: string
+                type: object
             type: object
         type: object
     served: true
