@@ -124,9 +124,3 @@ spec:
         type: object
     served: true
     storage: false
-status:
-  acceptedNames:
-    kind: ""
-    plural: ""
-  conditions: []
-  storedVersions: []
